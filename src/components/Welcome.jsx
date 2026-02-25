@@ -1,6 +1,9 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP);
+
 const FONT_WEIGHT = {
     subtitle: {min: 100, max: 400, default: 100},
     title: {min: 100, max: 900, default: 400}
@@ -20,6 +23,21 @@ const setupTextHover = (container, type) => {
     if(!container) return;
     const letters = container.querySelectorAll("span");
     const {min, max, default: base } = FONT_WEIGHT[type];
+    let rafId = null;
+    let containerLeft = 0;
+    let letterCenters = [];
+
+    const recomputeGeometry = () => {
+        const containerRect = container.getBoundingClientRect();
+        containerLeft = containerRect.left;
+        letterCenters = Array.from(letters, (letter) => {
+            const rect = letter.getBoundingClientRect();
+            return rect.left - containerLeft + rect.width / 2;
+        });
+    };
+
+    recomputeGeometry();
+
     const animateLetter = (letter, weight, duration = 0.25) => {
         return gsap.to(letter, {
             duration,
@@ -27,14 +45,17 @@ const setupTextHover = (container, type) => {
             ease: "power3.out",
         });
     };
+
     const handleMouseMove = (e) => {
-        const { left } = container.getBoundingClientRect();
-        const mouseX = e.clientX - left;
-        letters.forEach((letter) => {
-            const { left: l, width: w} = letter.getBoundingClientRect();
-            const distance = Math.abs(mouseX - (l - left + w / 2))
-            const intensity = Math.exp(-(distance ** 2) / 20000);
-            animateLetter(letter, min + (max - min) * intensity);
+        const mouseX = e.clientX - containerLeft;
+        if (rafId) return;
+        rafId = requestAnimationFrame(() => {
+            letters.forEach((letter, index) => {
+                const distance = Math.abs(mouseX - letterCenters[index]);
+                const intensity = Math.exp(-(distance ** 2) / 20000);
+                animateLetter(letter, min + (max - min) * intensity);
+            });
+            rafId = null;
         });
     };
     
@@ -43,13 +64,18 @@ const setupTextHover = (container, type) => {
             animateLetter(letter, base, 0.3);
         });
     };
+    
+    const handleResize = () => recomputeGeometry();
 
     container.addEventListener("mousemove", handleMouseMove);
     container.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("resize", handleResize);
     
     return () => {
+        if (rafId) cancelAnimationFrame(rafId);
         container.removeEventListener("mousemove", handleMouseMove);
         container.removeEventListener("mouseleave", handleMouseLeave);
+        window.removeEventListener("resize", handleResize);
     };
 };
 
