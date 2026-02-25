@@ -106,7 +106,7 @@ const Dock = () => {
                 loading="lazy"
                 className={canOpen ? "" : "opacity-60"}
               />
-            </button>{" "}
+            </button>
           </div>
         ))}
         <Tooltip id="dock-tooltip" className="tooltip" />
