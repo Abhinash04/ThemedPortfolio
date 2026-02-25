@@ -10,7 +10,7 @@ const Dock = () => {
   const dockRef = useRef(null);
   useGSAP(() => {
     const dock = dockRef.current;
-    if(!dock) return;
+    if (!dock) return;
 
     const icons = Array.from(dock.querySelectorAll(".dock-icon"));
     let rafId = null;
@@ -18,48 +18,51 @@ const Dock = () => {
     let iconCenters = [];
 
     const recomputeGeometry = () => {
-        const rect = dock.getBoundingClientRect();
-        dockLeft = rect.left;
-        iconCenters = icons.map((icon) => {
-            const iconRect = icon.getBoundingClientRect();
-            return iconRect.left - dockLeft + iconRect.width / 2;
-        });
+      const rect = dock.getBoundingClientRect();
+      dockLeft = rect.left;
+      iconCenters = icons.map((icon) => {
+        const iconRect = icon.getBoundingClientRect();
+        return iconRect.left - dockLeft + iconRect.width / 2;
+      });
     };
 
-    // Delay initial geometry computation slightly to ensure layout is complete
-    setTimeout(recomputeGeometry, 100);
+    recomputeGeometry();
 
     const animateIcons = (mouseX) => {
-        if (rafId) return;
-        rafId = requestAnimationFrame(() => {
-            icons.forEach((icon, index) => {
-                const distance = Math.abs(mouseX - iconCenters[index]);
-                const intensity = Math.exp(-(distance ** 2.5) / 20000);
-                gsap.to(icon, {
-                    scale: 1 + 0.25 * intensity,
-                    y: -15 * intensity,
-                    duration: 0.2,
-                    ease: "power1.out",
-                });
-            });
-            rafId = null;
+      if (iconCenters.length === 0) {
+        recomputeGeometry();
+        if (iconCenters.length === 0) return;
+      }
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        icons.forEach((icon, index) => {
+          const distance = Math.abs(mouseX - iconCenters[index]);
+          const intensity = Math.exp(-(distance ** 2.5) / 20000);
+          gsap.to(icon, {
+            scale: 1 + 0.25 * intensity,
+            y: -15 * intensity,
+            duration: 0.2,
+            ease: "power1.out",
+          });
         });
+        rafId = null;
+      });
     };
 
     const handleMouseMove = (e) => {
-        animateIcons(e.clientX - dockLeft);
+      animateIcons(e.clientX - dockLeft);
     };
 
     const resetIcons = () => {
-        icons.forEach((icon) => {
-            gsap.to(icon, {
-                scale: 1,
-                y: 0,
-                duration: 0.3,
-                ease: "power1.out",
-            });
+      icons.forEach((icon) => {
+        gsap.to(icon, {
+          scale: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power1.out",
         });
-    }; 
+      });
+    };
 
     const handleResize = () => recomputeGeometry();
 
@@ -68,13 +71,15 @@ const Dock = () => {
     window.addEventListener("resize", handleResize);
 
     return () => {
-        if (rafId) cancelAnimationFrame(rafId);
-        dock.removeEventListener("mousemove", handleMouseMove);
-        dock.removeEventListener("mouseleave", resetIcons);
-        window.removeEventListener("resize", handleResize);
-    }
-}, []);
-  const toggleApp = (app) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      dock.removeEventListener("mousemove", handleMouseMove);
+      dock.removeEventListener("mouseleave", resetIcons);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const toggleApp = (appId, canOpen) => {
+    if (!canOpen) return;
     //TODO Implement app opening logic
   };
 
