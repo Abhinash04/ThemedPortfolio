@@ -393,4 +393,17 @@ body {
       }
     }
   }
+
+  .custom-slider .rangeslider {
+    @apply relative h-6 w-full shadow-inner rounded-full bg-black/10 border border-black/5 m-0;
+  }
+  .custom-slider .rangeslider-horizontal .rangeslider__fill {
+    @apply absolute top-0 left-0 h-full bg-white rounded-full transition-all shadow-sm;
+  }
+  .custom-slider .rangeslider-horizontal .rangeslider__handle {
+    @apply absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border border-gray-200 shadow-xl outline-none transition-all cursor-grab active:cursor-grabbing;
+    &::after {
+      @apply hidden;
+    }
+  }
 }
