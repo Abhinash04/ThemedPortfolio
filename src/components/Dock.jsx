@@ -84,17 +84,15 @@ const Dock = () => {
     if (!canOpen) return;
     const window = windows[id];
     if (!window) {
-        console.warn(`Window config for ${id} not found.`);
-        return;
+      console.warn(`Window config for ${id} not found.`);
+      return;
     }
-    
+
     if (window.isOpen) {
       focusWindow(id);
     } else {
       openWindow(id);
     }
-    
-    console.log("Live Window State:", useWindowStore.getState().windows);
   };
 
   return (
