@@ -67,6 +67,17 @@ const windowWrapper = (Component, windowKey, title) => {
           ease: "back.out(1.2)",
         });
         
+        // Remove dataset geometry to prevent stale positions
+        delete ref.current.dataset.prevTransform;
+        delete ref.current.dataset.prevTop;
+        delete ref.current.dataset.prevLeft;
+        delete ref.current.dataset.prevWidth;
+        delete ref.current.dataset.prevHeight;
+        
+        // Kill existing Draggable before creating new one
+        const existingDraggable = Draggable.get(ref.current);
+        if (existingDraggable) existingDraggable.kill();
+        
         Draggable.create(ref.current, {
           type: "x,y",
           trigger: ref.current.querySelector(".window-handle"),
@@ -99,10 +110,15 @@ const windowWrapper = (Component, windowKey, title) => {
         });
         
         // Disable drag while maxed
-        const draggables = Draggable.get(ref.current);
-        if (draggables) draggables.disable();
+        const existingDraggable = Draggable.get(ref.current);
+        if (existingDraggable) existingDraggable.disable();
         
       }
+
+      return () => {
+         const existingDraggable = Draggable.get(ref.current);
+         if (existingDraggable) existingDraggable.kill();
+      };
     }, [windowState?.isOpen, windowState?.isMinimized, windowState?.isMaximized]);
 
     if (!windowState || !windowState.isOpen) return null;

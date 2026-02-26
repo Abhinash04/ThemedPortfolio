@@ -1,9 +1,6 @@
 import { Navbar, Welcome, Dock } from "@/components"
 import Terminal from "@/components/apps/Terminal"
 import Skills from "@/components/apps/Skills"
-import windowWrapper from "@/hoc/windowWrapper"
-
-const TerminalApp = windowWrapper(Terminal, "terminal", "me@abhinash: ~");
 
 const App = () => {
   return (
@@ -12,7 +9,7 @@ const App = () => {
       <Welcome />
       
       {/* Interactive Windows */}
-      <TerminalApp />
+      <Terminal />
       <Skills />
 
       <Dock />
