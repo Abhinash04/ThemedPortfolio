@@ -26,27 +26,27 @@ const blogPosts = [
 const techStack = [
   {
     category: "Frontend",
-    items: ["React.js", "Next.js", "TypeScript"],
-  },
-  {
-    category: "Mobile",
-    items: ["React Native", "Expo"],
-  },
-  {
-    category: "Styling",
-    items: ["Tailwind CSS", "Sass", "CSS"],
+    items: ["React.js", "Next.js", "JavaScript", "Tailwind CSS"],
   },
   {
     category: "Backend",
-    items: ["Node.js", "Express", "NestJS", "Hono"],
+    items: ["Node.js", "Express", "NestJS"],
   },
   {
     category: "Database",
     items: ["MongoDB", "PostgreSQL"],
   },
   {
+    category: "CS Fundamentals",
+    items: ["Computer Networks", "Data Structures", "Algorithms", "Operating Systems"],
+  },
+  {
+    category: "Soft Skills",
+    items: ["Teamwork", "Problem Solving", "Adaptability"],
+  },
+  {
     category: "Dev Tools",
-    items: ["Git", "GitHub", "Docker"],
+    items: ["Git", "GitHub"],
   },
 ];
 
