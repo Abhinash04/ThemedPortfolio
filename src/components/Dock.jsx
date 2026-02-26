@@ -82,13 +82,13 @@ const Dock = () => {
 
   const handleAppClick = (id, canOpen) => {
     if (!canOpen) return;
-    const window = windows[id];
-    if (!window) {
+    const win = windows[id];
+    if (!win) {
       console.warn(`Window config for ${id} not found.`);
       return;
     }
 
-    if (window.isOpen) {
+    if (win.isOpen) {
       focusWindow(id);
     } else {
       openWindow(id);
