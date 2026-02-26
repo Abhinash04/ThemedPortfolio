@@ -5,12 +5,12 @@ const navLinks = [
     type: "finder",
   },
   {
-    id: 3,
+    id: 2,
     name: "Contact",
     type: "contact",
   },
   {
-    id: 4,
+    id: 3,
     name: "Resume",
     type: "resume",
   },

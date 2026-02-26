@@ -47,7 +47,7 @@ const WORK_LOCATION = {
           imageUrl: "/images/project-1.png",
         },
         {
-          id: 5,
+          id: 3,
           name: "Design.fig",
           icon: "/images/plain.png",
           kind: "file",
@@ -100,7 +100,7 @@ const WORK_LOCATION = {
           imageUrl: "/images/project-2.png",
         },
         {
-          id: 5,
+          id: 3,
           name: "Design.fig",
           icon: "/images/plain.png",
           kind: "file",
@@ -153,7 +153,7 @@ const WORK_LOCATION = {
           imageUrl: "/images/project-3.png",
         },
         {
-          id: 5,
+          id: 3,
           name: "Design.fig",
           icon: "/images/plain.png",
           kind: "file",
@@ -210,7 +210,7 @@ const ABOUT_LOCATION = {
       subtitle: "Meet the Developer Behind the Code",
       image: "/images/adrian.jpg",
       description: [
-        "Hey! I’m Adrian 👋, a web developer who enjoys building sleek, interactive websites that actually work well.",
+        "Hey! I’m Abhinash 👋, a web developer who enjoys building sleek, interactive websites that actually work well.",
         "I specialize in JavaScript, React, and Next.js—and I love making things feel smooth, fast, and just a little bit delightful.",
         "I’m big on clean UI, good UX, and writing code that doesn’t need a search party to debug.",
         "Outside of dev work, you'll find me tweaking layouts at 2AM, sipping overpriced coffee, or impulse-buying gadgets I absolutely convinced myself I needed 😅",

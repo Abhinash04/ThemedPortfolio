@@ -16,7 +16,7 @@ const windowWrapper = (Component, windowKey, title) => {
       if (windowState?.isOpen && ref.current) {
         Draggable.create(ref.current, {
           type: "x,y",
-          trigger: ".window-handle",
+          trigger: ref.current.querySelector(".window-handle"),
           bounds: "body",
           onPress: () => focusWindow(windowKey)
         });
@@ -48,8 +48,8 @@ const windowWrapper = (Component, windowKey, title) => {
                 x
               </span>
             </button>
-            <button className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600"></button>
-            <button className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600"></button>
+            <button aria-disabled="true" disabled className="w-3 h-3 rounded-full bg-yellow-500 cursor-default"></button>
+            <button aria-disabled="true" disabled className="w-3 h-3 rounded-full bg-green-500 cursor-default"></button>
           </div>
           <div className="flex-1 text-center text-xs text-gray-400 font-medium font-sans">
             {title || windowKey}

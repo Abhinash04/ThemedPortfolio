@@ -11,8 +11,8 @@ const getEmoji = () => {
 const HowDare = ({ setRMRF }) => {
   const FONT_SIZE = 12;
 
-  const [emoji, setEmoji] = useState("");
-  const [drops, setDrops] = useState([]);
+  const [emoji] = useState(getEmoji);
+  const dropsRef = useRef([]);
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -26,9 +26,7 @@ const HowDare = ({ setRMRF }) => {
     canvas.width = container.offsetWidth;
 
     const columns = Math.floor(canvas.width / FONT_SIZE);
-    setDrops(Array(columns).fill(1));
-
-    setEmoji(getEmoji());
+    dropsRef.current = Array(columns).fill(1);
   }, []);
 
   const rain = () => {
@@ -43,7 +41,7 @@ const HowDare = ({ setRMRF }) => {
     ctx.fillStyle = "#2e9244";
     ctx.font = `${FONT_SIZE}px arial`;
 
-    const nextDrops = [...drops];
+    const nextDrops = [...dropsRef.current];
     nextDrops.forEach((y, x) => {
       const text = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
       ctx.fillText(text, x * FONT_SIZE, y * FONT_SIZE);
@@ -54,7 +52,7 @@ const HowDare = ({ setRMRF }) => {
         nextDrops[x] = y + 1;
       }
     });
-    setDrops(nextDrops);
+    dropsRef.current = nextDrops;
   };
 
   useInterval(rain, 33);

@@ -26,14 +26,8 @@ export default class Terminal extends React.Component {
   }
 
   componentDidMount() {
-    this.reset();
     this.generateInputRow(this.curInputTimes);
   }
-
-  reset = () => {
-    const terminal = document.querySelector("#terminal-content");
-    if(terminal) terminal.innerHTML = "";
-  };
 
   addRow = (row) => {
     this.setState((prevState) => {
@@ -118,8 +112,7 @@ export default class Terminal extends React.Component {
   };
 
   clear = () => {
-    this.curInputTimes += 1;
-    this.reset();
+    this.setState({ content: [] });
   };
 
   help = () => {
@@ -191,7 +184,9 @@ export default class Terminal extends React.Component {
     const input = inputText.split(" ");
 
     if (keyCode === "Enter") {
-      this.history.push(inputText);
+      if (inputText !== "") {
+        this.history.push(inputText);
+      }
 
       const cmd = input[0];
       const args = input[1];
