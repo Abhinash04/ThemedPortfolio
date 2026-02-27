@@ -9,7 +9,13 @@ gsap.registerPlugin(useGSAP, Draggable);
 
 const windowWrapper = (Component, windowKey, title) => {
   const Wrapped = (props) => {
-    const { focusWindow, closeWindow, minimizeWindow, maximizeWindow, windows } = useWindowStore();
+    const {
+      focusWindow,
+      closeWindow,
+      minimizeWindow,
+      maximizeWindow,
+      windows,
+    } = useWindowStore();
     const windowState = windows[windowKey];
     const ref = useRef(null);
 
@@ -20,13 +26,13 @@ const windowWrapper = (Component, windowKey, title) => {
         opacity: 0,
         duration: 0.2,
         ease: "power2.inOut",
-        onComplete: () => closeWindow(windowKey)
+        onComplete: () => closeWindow(windowKey),
       });
     };
 
     const handleMinimize = (e) => {
       e.stopPropagation();
-      
+
       const rect = ref.current.getBoundingClientRect();
       ref.current.dataset.prevTransform = ref.current.style.transform || "";
       ref.current.dataset.prevTop = ref.current.style.top || "";
@@ -37,10 +43,10 @@ const windowWrapper = (Component, windowKey, title) => {
       gsap.to(ref.current, {
         opacity: 0,
         scale: 0.5,
-        y: window.innerHeight - rect.bottom + 100, 
+        y: window.innerHeight - rect.bottom + 100,
         duration: 0.4,
         ease: "power3.in",
-        onComplete: () => minimizeWindow(windowKey)
+        onComplete: () => minimizeWindow(windowKey),
       });
     };
 
@@ -52,37 +58,47 @@ const windowWrapper = (Component, windowKey, title) => {
     useGSAP(() => {
       const node = ref.current;
       if (!node) return;
-      
-      if (windowState?.isOpen && !windowState?.isMinimized && !windowState?.isMaximized) {
+
+      if (
+        windowState?.isOpen &&
+        !windowState?.isMinimized &&
+        !windowState?.isMaximized
+      ) {
+        const prevTransform = node.dataset.prevTransform || "";
         gsap.to(node, {
           scale: 1,
           opacity: 1,
-          x: 0,
-          y: 0,
           top: node.dataset.prevTop || "15%",
           left: node.dataset.prevLeft || "20%",
           width: node.dataset.prevWidth || "70vw",
           height: node.dataset.prevHeight || "65vh",
           duration: 0.3,
           ease: "back.out(1.2)",
+          onStart: () => {
+            if (prevTransform) node.style.transform = prevTransform;
+          },
         });
-        
+
         delete node.dataset.prevTransform;
         delete node.dataset.prevTop;
         delete node.dataset.prevLeft;
         delete node.dataset.prevWidth;
         delete node.dataset.prevHeight;
-        
+
         const existingDraggable = Draggable.get(node);
         if (existingDraggable) existingDraggable.kill();
-        
+
         Draggable.create(node, {
           type: "x,y",
           trigger: node.querySelector(".window-handle"),
           bounds: "body",
-          onPress: () => focusWindow(windowKey)
+          onPress: () => focusWindow(windowKey),
         });
-      } else if (windowState?.isOpen && !windowState?.isMinimized && windowState?.isMaximized) {        
+      } else if (
+        windowState?.isOpen &&
+        !windowState?.isMinimized &&
+        windowState?.isMaximized
+      ) {
         if (!node.dataset.prevWidth) {
           node.dataset.prevTransform = node.style.transform || "";
           node.dataset.prevTop = node.style.top || "";
@@ -90,7 +106,7 @@ const windowWrapper = (Component, windowKey, title) => {
           node.dataset.prevWidth = node.style.width || "";
           node.dataset.prevHeight = node.style.height || "";
         }
-        
+
         gsap.to(node, {
           top: 0,
           left: 0,
@@ -101,21 +117,24 @@ const windowWrapper = (Component, windowKey, title) => {
           opacity: 1,
           scale: 1,
           duration: 0.3,
-          ease: "power2.out"
+          ease: "power2.out",
         });
-        
+
         const existingDraggable = Draggable.get(node);
         if (existingDraggable) existingDraggable.disable();
-        
       }
 
       return () => {
-         if (node) {
-           const existingDraggable = Draggable.get(node);
-           if (existingDraggable) existingDraggable.kill();
-         }
+        if (node) {
+          const existingDraggable = Draggable.get(node);
+          if (existingDraggable) existingDraggable.kill();
+        }
       };
-    }, [windowState?.isOpen, windowState?.isMinimized, windowState?.isMaximized]);
+    }, [
+      windowState?.isOpen,
+      windowState?.isMinimized,
+      windowState?.isMaximized,
+    ]);
 
     if (!windowState || !windowState.isOpen) return null;
 
@@ -127,17 +146,17 @@ const windowWrapper = (Component, windowKey, title) => {
         ref={ref}
         style={{ zIndex }}
         className={`absolute bg-gray-900 rounded-xl overflow-hidden shadow-2xl border border-gray-700/50 flex flex-col opacity-0 scale-75 ${
-          isMaximized 
-            ? "w-screen h-screen max-w-none max-h-none rounded-none top-0 left-0" 
+          isMaximized
+            ? "w-screen h-screen max-w-none max-h-none rounded-none top-0 left-0"
             : "w-[70vw] max-w-[800px] h-[65vh] max-h-[600px] top-[15%] left-[20%]"
         } ${isMinimized ? "pointer-events-none" : ""}`}
         onMouseDown={() => focusWindow(windowKey)}
       >
         <div className="h-8 bg-gray-800 flex items-center px-4 window-handle active:cursor-grabbing cursor-grab select-none">
-          <WindowsController 
-            handleClose={handleClose} 
-            handleMinimize={handleMinimize} 
-            handleMaximize={handleMaximize} 
+          <WindowsController
+            handleClose={handleClose}
+            handleMinimize={handleMinimize}
+            handleMaximize={handleMaximize}
           />
           <div className="flex-1 text-center text-xs text-gray-400 font-medium font-sans">
             {title || windowKey}

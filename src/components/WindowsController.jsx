@@ -1,5 +1,4 @@
 import { X, Minus, Maximize2 } from "lucide-react";
-import PropTypes from "prop-types";
 
 const WindowsController = ({ handleClose, handleMinimize, handleMaximize }) => {
   return (
@@ -27,12 +26,6 @@ const WindowsController = ({ handleClose, handleMinimize, handleMaximize }) => {
       </button>
     </div>
   );
-};
-
-WindowsController.propTypes = {
-  handleClose: PropTypes.func.isRequired,
-  handleMinimize: PropTypes.func.isRequired,
-  handleMaximize: PropTypes.func.isRequired,
 };
 
 export default WindowsController;
