@@ -7,6 +7,30 @@ import WindowsController from "@/components/WindowsController";
 
 gsap.registerPlugin(useGSAP, Draggable);
 
+const GEOMETRY_KEYS = ["prevTransform", "prevTop", "prevLeft", "prevWidth", "prevHeight"];
+
+const manageGeometryDataset = {
+  getPrev: (key, el) => {
+    if (el.dataset[key] !== undefined) return el.dataset[key];
+    const cssKey = key.replace("prev", "").toLowerCase();
+    return el.style[cssKey] || undefined;
+  },
+  setPrev: (key, value, el) => {
+    el.dataset[key] = value;
+  },
+  clearPrevKeys: (el) => {
+    GEOMETRY_KEYS.forEach((k) => delete el.dataset[k]);
+  }
+};
+
+const saveGeometry = (el) => {
+  GEOMETRY_KEYS.forEach((key) => {
+    if (el.dataset[key] === undefined) {
+      manageGeometryDataset.setPrev(key, manageGeometryDataset.getPrev(key, el) ?? "", el);
+    }
+  });
+};
+
 const windowWrapper = (Component, windowKey, title) => {
   const Wrapped = (props) => {
     const {
@@ -34,11 +58,7 @@ const windowWrapper = (Component, windowKey, title) => {
       e.stopPropagation();
 
       const rect = ref.current.getBoundingClientRect();
-      if (ref.current.dataset.prevTransform === undefined) ref.current.dataset.prevTransform = ref.current.style.transform || "";
-      if (ref.current.dataset.prevTop === undefined) ref.current.dataset.prevTop = ref.current.style.top || "";
-      if (ref.current.dataset.prevLeft === undefined) ref.current.dataset.prevLeft = ref.current.style.left || "";
-      if (ref.current.dataset.prevWidth === undefined) ref.current.dataset.prevWidth = ref.current.style.width || "";
-      if (ref.current.dataset.prevHeight === undefined) ref.current.dataset.prevHeight = ref.current.style.height || "";
+      saveGeometry(ref.current);
 
       gsap.to(ref.current, {
         opacity: 0,
@@ -64,14 +84,14 @@ const windowWrapper = (Component, windowKey, title) => {
         !windowState?.isMinimized &&
         !windowState?.isMaximized
       ) {
-        const prevTransform = node.dataset.prevTransform !== undefined ? node.dataset.prevTransform : "";
+        const prevTransform = manageGeometryDataset.getPrev("prevTransform", node) ?? "";
         gsap.to(node, {
           scale: 1,
           opacity: 1,
-          top: node.dataset.prevTop !== undefined ? node.dataset.prevTop : "15%",
-          left: node.dataset.prevLeft !== undefined ? node.dataset.prevLeft : "20%",
-          width: node.dataset.prevWidth !== undefined ? node.dataset.prevWidth : "70vw",
-          height: node.dataset.prevHeight !== undefined ? node.dataset.prevHeight : "65vh",
+          top: manageGeometryDataset.getPrev("prevTop", node) ?? "15%",
+          left: manageGeometryDataset.getPrev("prevLeft", node) ?? "20%",
+          width: manageGeometryDataset.getPrev("prevWidth", node) ?? "70vw",
+          height: manageGeometryDataset.getPrev("prevHeight", node) ?? "65vh",
           duration: 0.3,
           ease: "back.out(1.2)",
           onStart: () => {
@@ -79,11 +99,7 @@ const windowWrapper = (Component, windowKey, title) => {
           },
         });
 
-        delete node.dataset.prevTransform;
-        delete node.dataset.prevTop;
-        delete node.dataset.prevLeft;
-        delete node.dataset.prevWidth;
-        delete node.dataset.prevHeight;
+        manageGeometryDataset.clearPrevKeys(node);
 
         const existingDraggable = Draggable.get(node);
         if (existingDraggable) existingDraggable.kill();
@@ -99,13 +115,7 @@ const windowWrapper = (Component, windowKey, title) => {
         !windowState?.isMinimized &&
         windowState?.isMaximized
       ) {
-        if (node.dataset.prevWidth === undefined) {
-          node.dataset.prevTransform = node.style.transform || "";
-          node.dataset.prevTop = node.style.top || "";
-          node.dataset.prevLeft = node.style.left || "";
-          node.dataset.prevWidth = node.style.width || "";
-          node.dataset.prevHeight = node.style.height || "";
-        }
+        if (node.dataset.prevWidth === undefined) saveGeometry(node);
 
         gsap.to(node, {
           top: 0,
