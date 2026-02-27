@@ -1,7 +1,19 @@
+import { useState, useEffect } from "react";
 import { techStack } from "@/constants";
 import { Check, Flag } from "lucide-react";
 
 const TechStackGrid = () => {
+  const [renderTime, setRenderTime] = useState(0);
+  const [renderStart] = useState(() => performance.now());
+
+  useEffect(() => {
+    setRenderTime(Math.round(performance.now() - renderStart));
+  }, [renderStart]);
+
+  const total = techStack.length;
+  const loadedCount = techStack.length;
+  const percent = total > 0 ? Math.round((loadedCount / total) * 100) : 0;
+
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -23,12 +35,12 @@ const TechStackGrid = () => {
 
       <div className="mt-8 pt-4 flex flex-col sm:flex-row justify-between text-xs text-gray-500">
         <p className="flex items-center gap-1.5 mb-2 sm:mb-0">
-          <Check size={14} className="text-green-500" /> {techStack.length} of{" "}
-          {techStack.length} stacks loaded successfully (100%)
+          <Check size={14} className="text-green-500" /> {loadedCount} of{" "}
+          {total} stacks loaded successfully ({percent}%)
         </p>
         <p className="flex items-center gap-1.5">
           <Flag size={12} className="text-gray-500" fill="currentColor" />{" "}
-          Render time: 6ms
+          Render time: {renderTime}ms
         </p>
       </div>
     </>

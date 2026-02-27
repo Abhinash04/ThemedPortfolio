@@ -50,47 +50,48 @@ const windowWrapper = (Component, windowKey, title) => {
     };
 
     useGSAP(() => {
-      if (!ref.current) return;
+      const node = ref.current;
+      if (!node) return;
       
       if (windowState?.isOpen && !windowState?.isMinimized && !windowState?.isMaximized) {
-        gsap.to(ref.current, {
+        gsap.to(node, {
           scale: 1,
           opacity: 1,
           x: 0,
           y: 0,
-          top: ref.current.dataset.prevTop || "15%",
-          left: ref.current.dataset.prevLeft || "20%",
-          width: ref.current.dataset.prevWidth || "70vw",
-          height: ref.current.dataset.prevHeight || "65vh",
+          top: node.dataset.prevTop || "15%",
+          left: node.dataset.prevLeft || "20%",
+          width: node.dataset.prevWidth || "70vw",
+          height: node.dataset.prevHeight || "65vh",
           duration: 0.3,
           ease: "back.out(1.2)",
         });
         
-        delete ref.current.dataset.prevTransform;
-        delete ref.current.dataset.prevTop;
-        delete ref.current.dataset.prevLeft;
-        delete ref.current.dataset.prevWidth;
-        delete ref.current.dataset.prevHeight;
+        delete node.dataset.prevTransform;
+        delete node.dataset.prevTop;
+        delete node.dataset.prevLeft;
+        delete node.dataset.prevWidth;
+        delete node.dataset.prevHeight;
         
-        const existingDraggable = Draggable.get(ref.current);
+        const existingDraggable = Draggable.get(node);
         if (existingDraggable) existingDraggable.kill();
         
-        Draggable.create(ref.current, {
+        Draggable.create(node, {
           type: "x,y",
-          trigger: ref.current.querySelector(".window-handle"),
+          trigger: node.querySelector(".window-handle"),
           bounds: "body",
           onPress: () => focusWindow(windowKey)
         });
       } else if (windowState?.isOpen && !windowState?.isMinimized && windowState?.isMaximized) {        
-        if (!ref.current.dataset.prevWidth) {
-          ref.current.dataset.prevTransform = ref.current.style.transform || "";
-          ref.current.dataset.prevTop = ref.current.style.top || "";
-          ref.current.dataset.prevLeft = ref.current.style.left || "";
-          ref.current.dataset.prevWidth = ref.current.style.width || "";
-          ref.current.dataset.prevHeight = ref.current.style.height || "";
+        if (!node.dataset.prevWidth) {
+          node.dataset.prevTransform = node.style.transform || "";
+          node.dataset.prevTop = node.style.top || "";
+          node.dataset.prevLeft = node.style.left || "";
+          node.dataset.prevWidth = node.style.width || "";
+          node.dataset.prevHeight = node.style.height || "";
         }
         
-        gsap.to(ref.current, {
+        gsap.to(node, {
           top: 0,
           left: 0,
           x: 0,
@@ -103,14 +104,16 @@ const windowWrapper = (Component, windowKey, title) => {
           ease: "power2.out"
         });
         
-        const existingDraggable = Draggable.get(ref.current);
+        const existingDraggable = Draggable.get(node);
         if (existingDraggable) existingDraggable.disable();
         
       }
 
       return () => {
-         const existingDraggable = Draggable.get(ref.current);
-         if (existingDraggable) existingDraggable.kill();
+         if (node) {
+           const existingDraggable = Draggable.get(node);
+           if (existingDraggable) existingDraggable.kill();
+         }
       };
     }, [windowState?.isOpen, windowState?.isMinimized, windowState?.isMaximized]);
 
