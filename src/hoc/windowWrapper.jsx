@@ -34,11 +34,11 @@ const windowWrapper = (Component, windowKey, title) => {
       e.stopPropagation();
 
       const rect = ref.current.getBoundingClientRect();
-      ref.current.dataset.prevTransform = ref.current.style.transform || "";
-      ref.current.dataset.prevTop = ref.current.style.top || "";
-      ref.current.dataset.prevLeft = ref.current.style.left || "";
-      ref.current.dataset.prevWidth = ref.current.style.width || "";
-      ref.current.dataset.prevHeight = ref.current.style.height || "";
+      if (ref.current.dataset.prevTransform === undefined) ref.current.dataset.prevTransform = ref.current.style.transform || "";
+      if (ref.current.dataset.prevTop === undefined) ref.current.dataset.prevTop = ref.current.style.top || "";
+      if (ref.current.dataset.prevLeft === undefined) ref.current.dataset.prevLeft = ref.current.style.left || "";
+      if (ref.current.dataset.prevWidth === undefined) ref.current.dataset.prevWidth = ref.current.style.width || "";
+      if (ref.current.dataset.prevHeight === undefined) ref.current.dataset.prevHeight = ref.current.style.height || "";
 
       gsap.to(ref.current, {
         opacity: 0,
@@ -64,14 +64,14 @@ const windowWrapper = (Component, windowKey, title) => {
         !windowState?.isMinimized &&
         !windowState?.isMaximized
       ) {
-        const prevTransform = node.dataset.prevTransform || "";
+        const prevTransform = node.dataset.prevTransform !== undefined ? node.dataset.prevTransform : "";
         gsap.to(node, {
           scale: 1,
           opacity: 1,
-          top: node.dataset.prevTop || "15%",
-          left: node.dataset.prevLeft || "20%",
-          width: node.dataset.prevWidth || "70vw",
-          height: node.dataset.prevHeight || "65vh",
+          top: node.dataset.prevTop !== undefined ? node.dataset.prevTop : "15%",
+          left: node.dataset.prevLeft !== undefined ? node.dataset.prevLeft : "20%",
+          width: node.dataset.prevWidth !== undefined ? node.dataset.prevWidth : "70vw",
+          height: node.dataset.prevHeight !== undefined ? node.dataset.prevHeight : "65vh",
           duration: 0.3,
           ease: "back.out(1.2)",
           onStart: () => {
@@ -99,7 +99,7 @@ const windowWrapper = (Component, windowKey, title) => {
         !windowState?.isMinimized &&
         windowState?.isMaximized
       ) {
-        if (!node.dataset.prevWidth) {
+        if (node.dataset.prevWidth === undefined) {
           node.dataset.prevTransform = node.style.transform || "";
           node.dataset.prevTop = node.style.top || "";
           node.dataset.prevLeft = node.style.left || "";
