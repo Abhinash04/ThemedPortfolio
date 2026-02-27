@@ -20,14 +20,16 @@ const TechStackGrid = () => {
           </div>
         ))}
       </div>
-      
+
       <div className="mt-8 pt-4 flex flex-col sm:flex-row justify-between text-xs text-gray-500">
-          <p className="flex items-center gap-1.5 mb-2 sm:mb-0">
-            <Check size={14} className="text-green-500"/> {techStack.length} of {techStack.length} stacks loaded successfully (100%)
-          </p>
-          <p className="flex items-center gap-1.5">
-            <Flag size={12} className="text-gray-500" fill="currentColor"/> Render time: 6ms
-          </p>
+        <p className="flex items-center gap-1.5 mb-2 sm:mb-0">
+          <Check size={14} className="text-green-500" /> {techStack.length} of{" "}
+          {techStack.length} stacks loaded successfully (100%)
+        </p>
+        <p className="flex items-center gap-1.5">
+          <Flag size={12} className="text-gray-500" fill="currentColor" />{" "}
+          Render time: 6ms
+        </p>
       </div>
     </>
   );

@@ -11,7 +11,6 @@ const Skills = () => {
         <span className="text-red-400">{">"}</span>
         <span className="pl-1 text-white">show tech stack</span>
       </div>
-      
       <TechStackGrid />
     </div>
   );

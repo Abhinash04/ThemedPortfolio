@@ -5,9 +5,9 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(useGSAP);
 
 const FONT_WEIGHT = {
-    subtitle: {min: 100, max: 400, default: 100},
-    title: {min: 100, max: 900, default: 400}
-}
+  subtitle: { min: 100, max: 400, default: 100 },
+  title: { min: 100, max: 900, default: 400 },
+};
 const renderText = (text, className, baseWeight = 400) => {
   return [...text].map((char, i) => (
     <span
@@ -20,63 +20,63 @@ const renderText = (text, className, baseWeight = 400) => {
   ));
 };
 const setupTextHover = (container, type) => {
-    if(!container) return;
-    const letters = container.querySelectorAll("span");
-    const {min, max, default: base } = FONT_WEIGHT[type];
-    let rafId = null;
-    let containerLeft = 0;
-    let letterCenters = [];
+  if (!container) return;
+  const letters = container.querySelectorAll("span");
+  const { min, max, default: base } = FONT_WEIGHT[type];
+  let rafId = null;
+  let containerLeft = 0;
+  let letterCenters = [];
 
-    const recomputeGeometry = () => {
-        const containerRect = container.getBoundingClientRect();
-        containerLeft = containerRect.left;
-        letterCenters = Array.from(letters, (letter) => {
-            const rect = letter.getBoundingClientRect();
-            return rect.left - containerLeft + rect.width / 2;
-        });
-    };
+  const recomputeGeometry = () => {
+    const containerRect = container.getBoundingClientRect();
+    containerLeft = containerRect.left;
+    letterCenters = Array.from(letters, (letter) => {
+      const rect = letter.getBoundingClientRect();
+      return rect.left - containerLeft + rect.width / 2;
+    });
+  };
 
-    recomputeGeometry();
+  recomputeGeometry();
 
-    const animateLetter = (letter, weight, duration = 0.25) => {
-        return gsap.to(letter, {
-            duration,
-            fontVariationSettings: `'wght' ${weight}`,
-            ease: "power3.out",
-        });
-    };
+  const animateLetter = (letter, weight, duration = 0.25) => {
+    return gsap.to(letter, {
+      duration,
+      fontVariationSettings: `'wght' ${weight}`,
+      ease: "power3.out",
+    });
+  };
 
-    const handleMouseMove = (e) => {
-        const mouseX = e.clientX - containerLeft;
-        if (rafId) return;
-        rafId = requestAnimationFrame(() => {
-            letters.forEach((letter, index) => {
-                const distance = Math.abs(mouseX - letterCenters[index]);
-                const intensity = Math.exp(-(distance ** 2) / 20000);
-                animateLetter(letter, min + (max - min) * intensity);
-            });
-            rafId = null;
-        });
-    };
-    
-    const handleMouseLeave = () => {
-        letters.forEach((letter) => {
-            animateLetter(letter, base, 0.3);
-        });
-    };
-    
-    const handleResize = () => recomputeGeometry();
+  const handleMouseMove = (e) => {
+    const mouseX = e.clientX - containerLeft;
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      letters.forEach((letter, index) => {
+        const distance = Math.abs(mouseX - letterCenters[index]);
+        const intensity = Math.exp(-(distance ** 2) / 20000);
+        animateLetter(letter, min + (max - min) * intensity);
+      });
+      rafId = null;
+    });
+  };
 
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseLeave);
-    window.addEventListener("resize", handleResize);
-    
-    return () => {
-        if (rafId) cancelAnimationFrame(rafId);
-        container.removeEventListener("mousemove", handleMouseMove);
-        container.removeEventListener("mouseleave", handleMouseLeave);
-        window.removeEventListener("resize", handleResize);
-    };
+  const handleMouseLeave = () => {
+    letters.forEach((letter) => {
+      animateLetter(letter, base, 0.3);
+    });
+  };
+
+  const handleResize = () => recomputeGeometry();
+
+  container.addEventListener("mousemove", handleMouseMove);
+  container.addEventListener("mouseleave", handleMouseLeave);
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    container.removeEventListener("mousemove", handleMouseMove);
+    container.removeEventListener("mouseleave", handleMouseLeave);
+    window.removeEventListener("resize", handleResize);
+  };
 };
 
 const Welcome = () => {
@@ -85,12 +85,12 @@ const Welcome = () => {
   useGSAP(() => {
     const cleanupTitle = setupTextHover(titleRef.current, "title");
     const cleanupSubtitle = setupTextHover(subtitleRef.current, "subtitle");
-    
+
     return () => {
-        if (cleanupTitle) cleanupTitle();
-        if (cleanupSubtitle) cleanupSubtitle();
-    }
-  })
+      if (cleanupTitle) cleanupTitle();
+      if (cleanupSubtitle) cleanupSubtitle();
+    };
+  });
   return (
     <section id="welcome">
       <p ref={subtitleRef}>

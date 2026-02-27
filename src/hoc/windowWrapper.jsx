@@ -3,7 +3,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Draggable } from "gsap/all";
-import { X, Minus, Maximize2 } from "lucide-react";
+import WindowsController from "@/components/WindowsController";
 
 gsap.registerPlugin(useGSAP, Draggable);
 
@@ -53,7 +53,6 @@ const windowWrapper = (Component, windowKey, title) => {
       if (!ref.current) return;
       
       if (windowState?.isOpen && !windowState?.isMinimized && !windowState?.isMaximized) {
-        // Normal View
         gsap.to(ref.current, {
           scale: 1,
           opacity: 1,
@@ -67,14 +66,12 @@ const windowWrapper = (Component, windowKey, title) => {
           ease: "back.out(1.2)",
         });
         
-        // Remove dataset geometry to prevent stale positions
         delete ref.current.dataset.prevTransform;
         delete ref.current.dataset.prevTop;
         delete ref.current.dataset.prevLeft;
         delete ref.current.dataset.prevWidth;
         delete ref.current.dataset.prevHeight;
         
-        // Kill existing Draggable before creating new one
         const existingDraggable = Draggable.get(ref.current);
         if (existingDraggable) existingDraggable.kill();
         
@@ -84,10 +81,7 @@ const windowWrapper = (Component, windowKey, title) => {
           bounds: "body",
           onPress: () => focusWindow(windowKey)
         });
-      } else if (windowState?.isOpen && !windowState?.isMinimized && windowState?.isMaximized) {
-        // Fullscreen View
-        
-        // Save current styles if not already saved via minimize
+      } else if (windowState?.isOpen && !windowState?.isMinimized && windowState?.isMaximized) {        
         if (!ref.current.dataset.prevWidth) {
           ref.current.dataset.prevTransform = ref.current.style.transform || "";
           ref.current.dataset.prevTop = ref.current.style.top || "";
@@ -109,7 +103,6 @@ const windowWrapper = (Component, windowKey, title) => {
           ease: "power2.out"
         });
         
-        // Disable drag while maxed
         const existingDraggable = Draggable.get(ref.current);
         if (existingDraggable) existingDraggable.disable();
         
@@ -138,26 +131,11 @@ const windowWrapper = (Component, windowKey, title) => {
         onMouseDown={() => focusWindow(windowKey)}
       >
         <div className="h-8 bg-gray-800 flex items-center px-4 window-handle active:cursor-grabbing cursor-grab select-none">
-          <div className="flex space-x-2">
-            <button
-              onClick={handleClose}
-              className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center group"
-            >
-              <X size={8} strokeWidth={3} className="opacity-0 group-hover:opacity-100 text-red-900" />
-            </button>
-            <button 
-              onClick={handleMinimize}
-              className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600 flex items-center justify-center group"
-            >
-              <Minus size={8} strokeWidth={3} className="opacity-0 group-hover:opacity-100 text-yellow-900" />
-            </button>
-            <button 
-              onClick={handleMaximize}
-              className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 flex items-center justify-center group"
-            >
-              <Maximize2 size={8} strokeWidth={3} className="opacity-0 group-hover:opacity-100 text-green-900" />
-            </button>
-          </div>
+          <WindowsController 
+            handleClose={handleClose} 
+            handleMinimize={handleMinimize} 
+            handleMaximize={handleMaximize} 
+          />
           <div className="flex-1 text-center text-xs text-gray-400 font-medium font-sans">
             {title || windowKey}
           </div>

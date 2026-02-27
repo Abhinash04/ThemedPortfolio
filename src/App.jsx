@@ -7,11 +7,8 @@ const App = () => {
     <main>
       <Navbar />
       <Welcome />
-      
-      {/* Interactive Windows */}
       <Terminal />
       <Skills />
-
       <Dock />
     </main>
   )
