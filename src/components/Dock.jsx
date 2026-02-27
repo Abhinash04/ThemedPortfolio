@@ -7,6 +7,14 @@ import { useWindowStore } from "@/store/window";
 
 gsap.registerPlugin(useGSAP);
 
+const DockIndicator = ({ isOpen }) => (
+  <div
+    className={`absolute -bottom-2 w-[5px] h-[5px] bg-white/80 shadow-[0_0_6px_rgba(255,255,255,0.7)] rounded-full transition-all duration-300 ease-out pointer-events-none ${
+      isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"
+    }`}
+  />
+);
+
 const Dock = () => {
   const { openWindow, focusWindow, windows } = useWindowStore();
   const dockRef = useRef(null);
@@ -88,9 +96,10 @@ const Dock = () => {
       return;
     }
 
-    if (win.isOpen) {
+    if (win.isOpen && !win.isMinimized) {
       focusWindow(id);
     } else {
+      // If it's closed OR minimized, openWindow() correctly restores/opens it
       openWindow(id);
     }
   };
@@ -119,6 +128,7 @@ const Dock = () => {
                 className={canOpen ? "" : "opacity-60"}
               />
             </button>
+            <DockIndicator isOpen={windows[id]?.isOpen} />
           </div>
         ))}
         <Tooltip id="dock-tooltip" className="tooltip" />

@@ -1,9 +1,10 @@
 import React from "react";
 import terminalConfig from "@/configs/terminal";
 import HowDare from "./HowDare";
+import windowWrapper from "@/hoc/windowWrapper";
+import TechStackGrid from "./TechStackGrid";
 
-
-export default class Terminal extends React.Component {
+export class TerminalCore extends React.Component {
   constructor(props) {
     super(props);
     this.history = [];
@@ -16,7 +17,8 @@ export default class Terminal extends React.Component {
       ls: this.ls,
       cat: this.cat,
       clear: this.clear,
-      help: this.help
+      help: this.help,
+      show: this.show
     };
     
     this.state = {
@@ -115,6 +117,27 @@ export default class Terminal extends React.Component {
     this.setState({ content: [] });
   };
 
+  show = (args) => {
+    if (args === "tech stack") {
+      const content = (
+        <div className="w-full mt-2 mb-4">
+          <TechStackGrid />
+        </div>
+      );
+      this.generateResultRow(this.curInputTimes, content);
+    } else if (!args) {
+      this.generateResultRow(
+        this.curInputTimes,
+        <span>show: missing argument</span>
+      );
+    } else {
+      this.generateResultRow(
+        this.curInputTimes,
+        <span>{`show: invalid argument: ${args}`}</span>
+      );
+    }
+  };
+
   help = () => {
     const help = (
       <ul className="list-disc ml-6 pb-1.5">
@@ -135,6 +158,9 @@ export default class Terminal extends React.Component {
         </li>
         <li>
           <span className="text-red-400">help</span> - Display this help menu
+        </li>
+        <li>
+          <span className="text-red-400">show tech stack</span> - Display my tech stack
         </li>
         <li>
           <span className="text-red-400">rm -rf /</span> - :)
@@ -189,7 +215,7 @@ export default class Terminal extends React.Component {
       }
 
       const cmd = input[0];
-      const args = input[1];
+      const args = input.length > 1 ? input.slice(1).join(" ") : undefined;
 
       inputElement.setAttribute("readonly", "true");
 
@@ -282,3 +308,6 @@ export default class Terminal extends React.Component {
     );
   }
 }
+
+const Terminal = windowWrapper(TerminalCore, "terminal", "me@abhinash: ~");
+export default Terminal;
