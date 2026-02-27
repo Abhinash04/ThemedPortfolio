@@ -99,7 +99,6 @@ const Dock = () => {
     if (win.isOpen && !win.isMinimized) {
       focusWindow(id);
     } else {
-      // If it's closed OR minimized, openWindow() correctly restores/opens it
       openWindow(id);
     }
   };

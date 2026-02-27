@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import useInterval from "@/hooks/useInterval";
 
-const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789落霞与孤鹜齐飞秋水共长天一色";
-const EMOJIS = ["\\(o_o)/", "(˚Δ˚)b", "(^-^*)", "(╯‵□′)╯", "\\(°ˊДˋ°)/", "╰(‵□′)╯"];
+const CHARACTERS =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789落霞与孤鹜齐飞秋水共长天一色";
+const EMOJIS = [
+  "\\(o_o)/",
+  "(˚Δ˚)b",
+  "(^-^*)",
+  "(╯‵□′)╯",
+  "\\(°ˊДˋ°)/",
+  "╰(‵□′)╯",
+];
 
 const getEmoji = () => {
   return EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
@@ -45,7 +53,7 @@ const HowDare = ({ setRMRF }) => {
     nextDrops.forEach((y, x) => {
       const text = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
       ctx.fillText(text, x * FONT_SIZE, y * FONT_SIZE);
-      
+
       if (y * FONT_SIZE > canvas.height && Math.random() > 0.975) {
         nextDrops[x] = 1;
       } else {

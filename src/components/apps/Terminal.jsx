@@ -18,12 +18,12 @@ export class TerminalCore extends React.Component {
       cat: this.cat,
       clear: this.clear,
       help: this.help,
-      show: this.show
+      show: this.show,
     };
-    
+
     this.state = {
       content: [],
-      rmrf: false
+      rmrf: false,
     };
   }
 
@@ -49,7 +49,7 @@ export class TerminalCore extends React.Component {
       const found = children.find((item) => {
         return item.title === name && item.type === "folder";
       });
-      if(found) children = found.children;
+      if (found) children = found.children;
     }
     return children;
   };
@@ -71,7 +71,7 @@ export class TerminalCore extends React.Component {
       if (target === undefined) {
         this.generateResultRow(
           this.curInputTimes,
-          <span>{`cd: no such file or directory: ${args}`}</span>
+          <span>{`cd: no such file or directory: ${args}`}</span>,
         );
       } else {
         this.curChildren = target.children;
@@ -89,12 +89,12 @@ export class TerminalCore extends React.Component {
           className={`${item.type === "file" ? "text-white" : "text-purple-300"}`}
         >
           {item.title}
-        </span>
+        </span>,
       );
     }
     this.generateResultRow(
       this.curInputTimes,
-      <div className="grid grid-cols-4 w-full">{result}</div>
+      <div className="grid grid-cols-4 w-full">{result}</div>,
     );
   };
 
@@ -106,7 +106,7 @@ export class TerminalCore extends React.Component {
     if (file === undefined) {
       this.generateResultRow(
         this.curInputTimes,
-        <span>{`cat: ${args}: No such file or directory`}</span>
+        <span>{`cat: ${args}: No such file or directory`}</span>,
       );
     } else {
       this.generateResultRow(this.curInputTimes, <span>{file.content}</span>);
@@ -128,12 +128,12 @@ export class TerminalCore extends React.Component {
     } else if (!args) {
       this.generateResultRow(
         this.curInputTimes,
-        <span>show: missing argument</span>
+        <span>show: missing argument</span>,
       );
     } else {
       this.generateResultRow(
         this.curInputTimes,
-        <span>{`show: invalid argument: ${args}`}</span>
+        <span>{`show: invalid argument: ${args}`}</span>,
       );
     }
   };
@@ -142,16 +142,17 @@ export class TerminalCore extends React.Component {
     const help = (
       <ul className="list-disc ml-6 pb-1.5">
         <li>
-          <span className="text-red-400">cat {"<file>"}</span> - See the content of {"<file>"}
+          <span className="text-red-400">cat {"<file>"}</span> - See the content
+          of {"<file>"}
         </li>
         <li>
           <span className="text-red-400">cd {"<dir>"}</span> - Move into
-          {" <dir>"}, "cd .." to move to the parent directory, "cd" or "cd ~" to return to
-          root
+          {" <dir>"}, "cd .." to move to the parent directory, "cd" or "cd ~" to
+          return to root
         </li>
         <li>
-          <span className="text-red-400">ls</span> - See files and directories in the current
-          directory
+          <span className="text-red-400">ls</span> - See files and directories
+          in the current directory
         </li>
         <li>
           <span className="text-red-400">clear</span> - Clear the screen
@@ -160,13 +161,15 @@ export class TerminalCore extends React.Component {
           <span className="text-red-400">help</span> - Display this help menu
         </li>
         <li>
-          <span className="text-red-400">show tech stack</span> - Display my tech stack
+          <span className="text-red-400">show tech stack</span> - Display my
+          tech stack
         </li>
         <li>
           <span className="text-red-400">rm -rf /</span> - :)
         </li>
         <li>
-          press <span className="text-red-400">up arrow / down arrow</span> - Select history commands
+          press <span className="text-red-400">up arrow / down arrow</span> -
+          Select history commands
         </li>
         <li>
           press <span className="text-red-400">tab</span> - Auto complete
@@ -193,7 +196,9 @@ export class TerminalCore extends React.Component {
     } else if (cmd === "cd" || cmd === "cat") {
       const type = cmd === "cd" ? "folder" : "file";
       const guess = this.curChildren.find((item) => {
-        return item.type === type && item.title.substring(0, args.length) === args;
+        return (
+          item.type === type && item.title.substring(0, args.length) === args
+        );
       });
       if (guess !== undefined) result = cmd + " " + guess.title;
     }
@@ -203,7 +208,7 @@ export class TerminalCore extends React.Component {
   keyPress = (e) => {
     const keyCode = e.key;
     const inputElement = document.querySelector(
-      `#terminal-input-${this.curInputTimes}`
+      `#terminal-input-${this.curInputTimes}`,
     );
     if (!inputElement) return;
     const inputText = inputElement.value.trim();
@@ -225,7 +230,7 @@ export class TerminalCore extends React.Component {
       } else if (cmd !== "") {
         this.generateResultRow(
           this.curInputTimes,
-          <span>{`zsh: command not found: ${cmd}`}</span>
+          <span>{`zsh: command not found: ${cmd}`}</span>,
         );
       }
 
@@ -255,7 +260,7 @@ export class TerminalCore extends React.Component {
 
   focusOnInput = (id) => {
     const input = document.querySelector(`#terminal-input-${id}`);
-    if(input) input.focus();
+    if (input) input.focus();
   };
 
   generateInputRow = (id) => {
@@ -263,7 +268,8 @@ export class TerminalCore extends React.Component {
       <div key={`terminal-input-row-${id}`} className="flex">
         <div className="w-max flex flex-row items-center space-x-1.5 mr-2">
           <span className="text-yellow-200">
-            @abhinash <span className="text-green-300">{this.getCurDirName()}</span>
+            @abhinash{" "}
+            <span className="text-green-300">{this.getCurDirName()}</span>
           </span>
           <span className="text-red-400">{">"}</span>
         </div>
@@ -298,8 +304,8 @@ export class TerminalCore extends React.Component {
           <HowDare setRMRF={(value) => this.setState({ rmrf: value })} />
         )}
         <div className="py-2 px-1.5 font-mono">
-          <span className="text-green-300">help</span>: Hey, you found the terminal!
-          Type `help` to get started.
+          <span className="text-green-300">help</span>: Hey, you found the
+          terminal! Type `help` to get started.
         </div>
         <div id="terminal-content" className="px-1.5 pb-2 font-mono">
           {this.state.content}

@@ -10,16 +10,14 @@ export const useWindowStore = create(
       set((state) => {
         const win = state.windows[windowKey];
         if (!win) return;
-        
+
         if (win.isMinimized) {
-          // Restore from minimized
           win.isMinimized = false;
         } else {
-          // Normal open
           win.isOpen = true;
           win.data = data ?? win.data;
         }
-        
+
         win.zIndex = state.nextZIndex++;
       }),
     closeWindow: (windowKey) =>
