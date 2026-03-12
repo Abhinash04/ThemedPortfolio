@@ -10,10 +10,10 @@ const NavSection = ({ section, setGoURL }) => {
             onClick={() => {
               if (site.link.startsWith("mailto:")) {
                 window.location.href = site.link;
-              } else if (site.inner) {
-                setGoURL(site.link);
+              } else if (site.external || site.escape) {
+                window.open(site.link, "_blank", "noopener,noreferrer");
               } else {
-                window.open(site.link, "_blank");
+                setGoURL(site.link);
               }
             }}
           >

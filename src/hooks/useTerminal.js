@@ -71,7 +71,7 @@ export const useTerminal = () => {
     }
   };
 
-  const ls = (id) => {
+  const ls = (_args, id) => {
     const items = curChildren.current.map(item => ({
       id: item.id,
       title: item.title,
@@ -101,7 +101,7 @@ export const useTerminal = () => {
     }
   };
 
-  const help = (id) => {
+  const help = (_args, id) => {
     generateResultRow(id, { type: "help" });
   };
 
@@ -149,11 +149,15 @@ export const useTerminal = () => {
   
   // Track new prompts
   useEffect(() => {
-    if (uniqueId > 0 && contentRows.length > 0) {
-       // Only append input if the last row isn't already an input row for this ID
-       const lastRow = contentRows[contentRows.length - 1];
-       if (lastRow.type !== "input" || lastRow.id !== uniqueId) {
+    if (uniqueId > 0) {
+       if (contentRows.length === 0) {
          generateInputRow(uniqueId);
+       } else {
+         // Only append input if the last row isn't already an input row for this ID
+         const lastRow = contentRows[contentRows.length - 1];
+         if (lastRow.type !== "input" || lastRow.id !== uniqueId) {
+           generateInputRow(uniqueId);
+         }
        }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
