@@ -6,7 +6,7 @@ import NavSection from "./NavSection";
 const NavPage = ({ setGoURL }) => {
   return (
     <div className="w-full h-full overflow-y-auto bg-center bg-cover"
-         style={{ backgroundImage: `url(${wallpapers.day})`, height: 'calc(100% - 50px)' }}>
+         style={{ backgroundImage: `url(${wallpapers.day})`, height: '100%' }}>
       <div className="w-full min-h-full pb-10 bg-white/40 backdrop-blur-3xl pt-8">
         <NavSection section={websites.favorites} setGoURL={setGoURL} />
         <NavSection section={projects} setGoURL={setGoURL} />
@@ -16,7 +16,13 @@ const NavPage = ({ setGoURL }) => {
            <div className="text-xl sm:text-2xl font-medium ml-2 mb-3 text-gray-800">Blogs</div>
            <div className="bg-white/60 p-5 rounded-2xl shadow-sm flex flex-col gap-0 border border-white/50">
               {blogPosts.map(({ id, date, title, image, link }, index) => (
-                <div key={id} className={`blog-post flex gap-5 cursor-pointer hover:bg-white/80 p-3 rounded-lg transition-colors ${index !== blogPosts.length - 1 ? 'border-b border-gray-200/50' : ''}`} onClick={() => setGoURL(link)}>
+                <button
+                  key={id}
+                  type="button"
+                  className={`blog-post text-left flex gap-5 cursor-pointer hover:bg-white/80 p-3 rounded-lg transition-colors ${index !== blogPosts.length - 1 ? 'border-b border-gray-200/50' : ''}`}
+                  onClick={() => setGoURL(link)}
+                  aria-label={`Read blog post: ${title}`}
+                >
                   <div className="w-1/4 h-24 overflow-hidden rounded-md shrink-0">
                     <img src={image} alt={title} className="w-full h-full object-cover" />
                   </div>
@@ -24,7 +30,7 @@ const NavPage = ({ setGoURL }) => {
                     <p className="text-xs text-gray-500 font-medium">{date}</p>
                     <h3 className="font-semibold text-sm text-gray-800 line-clamp-2 leading-tight">{title}</h3>
                   </div>
-                </div>
+                </button>
               ))}
            </div>
         </div>
