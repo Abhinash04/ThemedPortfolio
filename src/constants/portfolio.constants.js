@@ -109,6 +109,14 @@ const photosLinks = [
   },
 ];
 
+const projects = {
+  title: "Projects",
+  sites: [
+    { id: "proj-1", title: "E-Commerce", img: "/icons/github.svg", link: "https://github.com/aakashsharma003/ecommerce" },
+    { id: "proj-2", title: "Portfolio", img: "/icons/portfolio.png", link: "https://portfolio-two-rose-56.vercel.app/" },
+  ]
+};
+
 const gallery = [
   {
     id: 1,
@@ -128,4 +136,4 @@ const gallery = [
   },
 ];
 
-export { blogPosts, techStack, socials, photosLinks, gallery };
+export { blogPosts, techStack, socials, photosLinks, gallery, projects };
