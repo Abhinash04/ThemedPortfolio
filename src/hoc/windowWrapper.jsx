@@ -19,7 +19,7 @@ const manageGeometryDataset = {
     el.dataset[key] = value;
   },
   clearPrevKeys: (el) => {
-    GEOMETRY_KEYS.forEach((k) => delete el.dataset[k]);
+    GEOMETRY_KEYS.forEach((k) => { delete el.dataset[k]; });
   }
 };
 
