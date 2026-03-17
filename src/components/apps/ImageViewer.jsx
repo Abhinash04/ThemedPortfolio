@@ -8,14 +8,24 @@ const ZOOM_STEPS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 const ImageViewer = () => {
   const { windows } = useWindowStore();
   const data = windows.imgfile?.data;
+  const imageUrl = data?.imageUrl;
 
+  const [prevImageUrl, setPrevImageUrl] = useState(imageUrl);
   const [zoomIndex, setZoomIndex] = useState(2); // default: 1× (index 2)
   const [rotation, setRotation] = useState(0);
   const [imgError, setImgError] = useState(false);
 
+  // Reset view state whenever a different image is opened (during render, before paint)
+  if (imageUrl !== prevImageUrl) {
+    setPrevImageUrl(imageUrl);
+    setZoomIndex(2);
+    setRotation(0);
+    setImgError(false);
+  }
+
   if (!data) return null;
 
-  const { name, imageUrl } = data;
+  const { name } = data;
   const zoom = ZOOM_STEPS[zoomIndex];
 
   const zoomIn = () => setZoomIndex((i) => Math.min(i + 1, ZOOM_STEPS.length - 1));
@@ -37,6 +47,7 @@ const ImageViewer = () => {
             src={imageUrl}
             alt={name}
             onError={() => setImgError(true)}
+            onLoad={() => setImgError(false)}
             style={{
               transform: `scale(${zoom}) rotate(${rotation}deg)`,
               transition: "transform 0.2s ease",

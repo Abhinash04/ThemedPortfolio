@@ -81,7 +81,15 @@ const Finder = () => {
         {items.map((item) => (
           <li
             key={`${item.id}-${item.name}`}
+            role="button"
+            tabIndex={0}
             onClick={() => handleSidebarClick(item)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+                e.preventDefault();
+                handleSidebarClick(item);
+              }
+            }}
             className={clsx(
               item.id === activeLocation.id ? "active" : "not-active"
             )}
@@ -152,6 +160,9 @@ const Finder = () => {
           {activeLocation?.children?.map((item, index) => (
             <li
               key={item.id}
+              role="button"
+              tabIndex={0}
+              aria-label={item.name}
               className={clsx(
                 "group cursor-pointer select-none",
                 item.position ?? FALLBACK_POSITIONS[index % FALLBACK_POSITIONS.length],
@@ -162,6 +173,12 @@ const Finder = () => {
                 setSelectedItem(item);
               }}
               onDoubleClick={() => openItem(item)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+                  e.preventDefault();
+                  openItem(item);
+                }
+              }}
             >
               <img
                 src={item.icon}
