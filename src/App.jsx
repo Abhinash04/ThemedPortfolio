@@ -6,6 +6,7 @@ import Resume from "@/components/apps/Resume"
 import Finder from "@/components/apps/Finder"
 import TextViewer from "@/components/apps/TextViewer"
 import ImageViewer from "@/components/apps/ImageViewer"
+import Contact from "@/components/apps/Contact"
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Finder />
       <TextViewer />
       <ImageViewer />
+      <Contact />
     </main>
   )
 }
