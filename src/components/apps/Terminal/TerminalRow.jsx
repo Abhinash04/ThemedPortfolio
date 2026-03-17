@@ -12,6 +12,7 @@ const renderResultElement = (element, id) => {
   }
 
   if (element.type === "ls") {
+    if(!Array.isArray(element.items)) return null;
     return (
       <div className="grid grid-cols-4 w-full">
         {element.items.map((item) => (
