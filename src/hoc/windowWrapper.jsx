@@ -31,7 +31,8 @@ const saveGeometry = (el) => {
   });
 };
 
-const windowWrapper = (Component, windowKey, title) => {
+const windowWrapper = (Component, windowKey, title, options = {}) => {
+  const { titleBarActions, scrollableContent } = options;
   const Wrapped = (props) => {
     const {
       focusWindow,
@@ -171,8 +172,13 @@ const windowWrapper = (Component, windowKey, title) => {
           <div className="flex-1 text-center text-xs text-gray-400 font-medium font-sans">
             {title || windowKey}
           </div>
+          {titleBarActions && (
+            <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+              {titleBarActions}
+            </div>
+          )}
         </div>
-        <div className="flex-1 overflow-hidden">
+        <div className={`flex-1 ${scrollableContent ? "overflow-y-auto overflow-x-hidden" : "overflow-hidden"}`}>
           <Component {...props} />
         </div>
       </section>

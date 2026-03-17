@@ -15,7 +15,7 @@ This is a **React portfolio application** with a macOS-inspired desktop interfac
 
 ### Core Structure
 
-```
+```text
 src/
 ├── App.jsx           # Main app: Navbar, Welcome, Dock, and app components (Terminal, Skills, Safari)
 ├── main.jsx          # Entry point
