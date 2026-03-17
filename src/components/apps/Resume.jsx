@@ -14,6 +14,7 @@ const Resume = () => {
   const containerRef = useRef(null);
   const [pageWidth, setPageWidth] = useState(null);
   const [numPages, setNumPages] = useState(null);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -30,9 +31,11 @@ const Resume = () => {
 
   return (
     <div ref={containerRef} className="h-full w-full px-4 py-4">
+      {loadError && <div className="text-sm text-red-500 mb-2">{loadError}</div>}
       <Document
         file="files/ResumeAbhinashPritiraj.pdf"
         onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+        onLoadError={() => setLoadError("Error loading PDF.")}
         className="flex flex-col items-center gap-4"
       >
         {numPages &&

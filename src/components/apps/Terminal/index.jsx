@@ -1,8 +1,8 @@
-import HowDare from "../HowDare";
+import HowDare from "@/components/apps/HowDare";
 import windowWrapper from "@/hoc/windowWrapper";
 import { useTerminal } from "@/hooks/useTerminal";
-import TerminalInput from "./TerminalInput";
-import TerminalRow from "./TerminalRow";
+import TerminalInput from "@/components/apps/Terminal/TerminalInput";
+import TerminalRow from "@/components/apps/Terminal/TerminalRow";
 
 export const TerminalCore = () => {
   const {

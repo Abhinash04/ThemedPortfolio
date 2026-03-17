@@ -1,5 +1,5 @@
 import React from "react";
-import TechStackGrid from "../TechStackGrid";
+import TechStackGrid from "@/components/apps/TechStackGrid";
 
 const renderResultElement = (element, id) => {
   if (!element) return null;

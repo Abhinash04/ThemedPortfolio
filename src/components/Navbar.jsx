@@ -3,7 +3,7 @@ import { navIcons, navLinks } from "@/constants";
 import { useWindowStore } from "@/store/window";
 
 const Navbar = () => {
-  const { openWindow } = useWindowStore();
+  const openWindow = useWindowStore((state) => state.openWindow);
   return (
     <nav>
       <div>
@@ -11,8 +11,10 @@ const Navbar = () => {
         <p className="font-bold">Abhinash Pritiraj's Portfolio</p>
         <ul>
           {navLinks.map(({ id, name, type }) => (
-            <li key={id} onClick={() => openWindow(type)}>
-              <p>{name}</p>
+            <li key={id}>
+              <button type="button" onClick={() => openWindow(type)}>
+                <p>{name}</p>
+              </button>
             </li>
           ))}
         </ul>
