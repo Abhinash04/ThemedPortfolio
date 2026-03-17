@@ -1,7 +1,7 @@
 import React from "react";
 import TechStackGrid from "@/components/apps/TechStackGrid";
 
-const renderResultElement = (element, id) => {
+const renderResultElement = (element, rowKey) => {
   if (!element) return null;
   if (
     typeof element === "string" || 
@@ -17,7 +17,7 @@ const renderResultElement = (element, id) => {
       <div className="grid grid-cols-4 w-full">
         {element.items.map((item) => (
           <span
-            key={`terminal-result-ls-${id}-${item.id}`}
+            key={`terminal-result-ls-${rowKey}-${item.id}`}
             className={`${item.type === "file" ? "text-white" : "text-purple-300"}`}
           >
             {item.title}
@@ -78,7 +78,7 @@ const TerminalRow = ({ row }) => {
 
   return (
     <div className="break-all pt-1 pb-1">
-      {renderResultElement(row.element, row.id)}
+      {renderResultElement(row.element, row.key)}
     </div>
   );
 };
