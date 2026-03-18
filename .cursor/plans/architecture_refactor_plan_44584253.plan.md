@@ -4,7 +4,7 @@ overview: Refactor the feature-based project to separate infrastructure from UI 
 todos:
   - id: extract-core
     content: Create src/core/ with hocs/, store/, and constants/ — move windowWrapper.jsx, instanceWrapper.jsx, window.store.js, location.store.js, window.constants.js into it
-    status: pending
+    status: in_progress
   - id: shared-layer
     content: Create src/shared/ — move WindowsController.jsx to shared/components/ and url.js to shared/utils/; update all import paths
     status: pending

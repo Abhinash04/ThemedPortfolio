@@ -55,12 +55,20 @@ const instanceWrapper = (Component, windowType, title, options = {}) => {
     const ref = useRef(null);
     const mountedRef = useRef(true);
     const closeTweenRef = useRef(null);
+    const minimizeTweenRef = useRef(null);
 
     useEffect(() => {
       mountedRef.current = true;
       return () => {
         mountedRef.current = false;
-        if (closeTweenRef.current) closeTweenRef.current.kill();
+        if (closeTweenRef.current) {
+          closeTweenRef.current.kill();
+          closeTweenRef.current = null;
+        }
+        if (minimizeTweenRef.current) {
+          minimizeTweenRef.current.kill();
+          minimizeTweenRef.current = null;
+        }
       };
     }, []);
 
@@ -81,13 +89,15 @@ const instanceWrapper = (Component, windowType, title, options = {}) => {
       e.stopPropagation();
       const rect = ref.current.getBoundingClientRect();
       saveGeometry(ref.current);
-      gsap.to(ref.current, {
+      minimizeTweenRef.current = gsap.to(ref.current, {
         opacity: 0,
         scale: 0.5,
         y: window.innerHeight - rect.bottom + 100,
         duration: 0.4,
         ease: "power3.in",
-        onComplete: () => minimizeInstance(instanceId),
+        onComplete: () => {
+          if (mountedRef.current) minimizeInstance(instanceId);
+        },
       });
     };
 
