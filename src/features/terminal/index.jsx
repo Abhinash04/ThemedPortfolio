@@ -1,4 +1,4 @@
-import { windowWrapper } from "@/features/system/hooks";
+import { windowWrapper } from "@/core/components";
 import { useTerminal } from "@/features/terminal/hooks";
 import { TerminalError, TerminalInput, TerminalRow } from "@/features/terminal/components";
 

@@ -1,5 +1,5 @@
 import { RefreshCw } from "lucide-react";
-import { windowWrapper } from "@/features/system/hooks";
+import { windowWrapper } from "@/core/components";
 import { useSafari } from "@/features/safari/hooks";
 import { SafariToolbar, SafariNavPage } from "@/features/safari/components";
 

@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { windowWrapper } from "@/features/system/hooks";
+import { windowWrapper } from "@/core/components";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { locations } from "@/features/finder/constants";
-import { useLocationStore } from "@/features/system/store";
-import { useWindowStore } from "@/features/system/store";
+import { useLocationStore, useWindowStore } from "@/core/store";
 import clsx from "clsx";
 
 const FALLBACK_POSITIONS = [

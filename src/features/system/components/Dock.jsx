@@ -3,7 +3,7 @@ import { dockApps } from "@/features/system/constants";
 import { Tooltip } from "react-tooltip";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useWindowStore } from "@/features/system/store";
+import { useWindowStore } from "@/core/store";
 
 gsap.registerPlugin(useGSAP);
 

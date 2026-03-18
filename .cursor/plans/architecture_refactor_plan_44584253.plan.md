@@ -4,25 +4,25 @@ overview: Refactor the feature-based project to separate infrastructure from UI 
 todos:
   - id: extract-core
     content: Create src/core/ with hocs/, store/, and constants/ — move windowWrapper.jsx, instanceWrapper.jsx, window.store.js, location.store.js, window.constants.js into it
-    status: in_progress
+    status: completed
   - id: shared-layer
     content: Create src/shared/ — move WindowsController.jsx to shared/components/ and url.js to shared/utils/; update all import paths
-    status: pending
+    status: completed
   - id: trim-system
     content: Strip system/ down to components/ only (Navbar, Dock, Welcome); remove the now-empty hooks/, store/, and constants/ folders and their index files
-    status: pending
+    status: completed
   - id: fix-barrel
     content: Rewrite features/index.js to export only the public UI surface — explicit named exports instead of export *
-    status: pending
+    status: completed
   - id: remove-single-barrels
     content: Remove index.js files that re-export a single item (safari/utils/index.js, finder/components/index.js); update consumers to import directly
-    status: pending
+    status: completed
   - id: config-constants-convention
     content: Rename terminal/config/ to terminal/constants/ since terminal.config.js is static data, not behavior config
-    status: pending
+    status: completed
   - id: server-separation
     content: Create server/ directory at project root with its own package.json; remove express/nodemailer/body-parser/cors from frontend package.json
-    status: pending
+    status: completed
 isProject: false
 ---
 

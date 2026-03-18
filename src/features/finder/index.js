@@ -1,2 +1,2 @@
-export * from "@/features/finder/components";
-export * from "@/features/finder/constants";
+export { default as Finder } from "@/features/finder/components/Finder";
+export { default as locations } from "@/features/finder/constants";

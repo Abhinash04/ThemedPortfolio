@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { windowWrapper } from "@/features/system/hooks";
+import { windowWrapper } from "@/core/components";
 import { useTerminalContactForm } from "@/features/contact/hooks";
 import {
   ContactHeader,

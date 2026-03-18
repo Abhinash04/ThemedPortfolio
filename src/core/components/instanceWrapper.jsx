@@ -1,12 +1,11 @@
-import { useWindowStore } from "@/features/system/store";
+import { useWindowStore } from "@/core/store";
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Draggable } from "gsap/all";
-import { WindowsController } from "@/features/system/components";
+import { WindowsController } from "@/shared/components";
 
 gsap.registerPlugin(useGSAP, Draggable);
-
 
 const WINDOW_DEFAULT_POSITIONS = {
   txtfile: { top: "18%", left: "30%" },

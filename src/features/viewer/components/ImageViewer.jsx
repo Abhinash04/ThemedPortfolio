@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { instanceWrapper } from "@/features/system/hooks";
+import { instanceWrapper } from "@/core/components";
 import { ZoomIn, ZoomOut, RotateCw } from "lucide-react";
 
 const ZOOM_STEPS = [0.5, 0.75, 1, 1.25, 1.5, 2];
