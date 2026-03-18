@@ -26,6 +26,7 @@ export const ContactCore = () => {
     advance,
     restart,
     send,
+    sending,
   } = useTerminalContactForm();
 
   const inputRef = useRef(null);
@@ -83,8 +84,9 @@ export const ContactCore = () => {
         <ContactActions
           onRestart={restart}
           onSend={send}
-          canSend={canSend}
+          canSend={canSend && !sending}
           showSend={!isSent}
+          sending={sending}
         />
       )}
 

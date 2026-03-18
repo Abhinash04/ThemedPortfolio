@@ -1,62 +1,89 @@
-import "dotenv/config";
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import nodemailer from "nodemailer";
-import rateLimit from "express-rate-limit";
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import nodemailer from 'nodemailer';
 
 const app = express();
-const PORT = process.env.PORT ?? 3001;
+const port = process.env.PORT ?? 5000;
 
-app.use(cors({ origin: process.env.CLIENT_ORIGIN ?? "http://localhost:3000" }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN ?? 'http://localhost:3000' }));
 app.use(bodyParser.json());
 
-const { MAIL_USER, MAIL_PASS } = process.env;
-if (!MAIL_USER || !MAIL_PASS) {
-  console.error(
-    "[server] Missing required environment variables: MAIL_USER and/or MAIL_PASS.\n" +
-    "Create a .env file in the server/ directory with these values before starting."
-  );
-  process.exit(1);
+const { EMAIL_USER, EMAIL_PASSWORD } = process.env;
+if (!EMAIL_USER || !EMAIL_PASSWORD) {
+    console.error(
+        '[server] Missing required environment variables.'
+    );
+    process.exit(1);
 }
 
-const contactLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: "Too many requests. Please wait 15 minutes before trying again." },
-});
-
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: MAIL_USER,
-    pass: MAIL_PASS,
-  },
+    service: 'gmail',
+    auth: {
+        user: EMAIL_USER,
+        pass: EMAIL_PASSWORD,
+    },
 });
 
-app.post("/api/contact", contactLimiter, async (req, res) => {
-  const { name, email, number, description } = req.body;
+app.post('/api/contact', (req, res) => {
+    const { email, name, number, description } = req.body;
+    if (!email || !name || !number || !description) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
 
-  if (!name || !email || !description) {
-    return res.status(400).json({ error: "Missing required fields." });
-  }
+    const adminHTML = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+        <h2 style="color: #007bff;">New Contact Form Submission from ${name} on ${new Date().toLocaleDateString()}</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${number}</p>
+        <p><strong>Message:</strong> ${description}</p>
+    </div>
+    `;
 
-  try {
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.MAIL_USER}>`,
-      to: process.env.MAIL_TO ?? process.env.MAIL_USER,
-      subject: `New message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nPhone: ${number ?? "—"}\n\n${description}`,
+    const userHTML = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+        <p>Hi ${name},</p>
+        <p>Thank you for contacting me! I have received your message and will get back to you as soon as possible. You can also reply to this email for any further questions.</p>
+        <p>Best regards,</p>
+        <p>Abhinash Pritiraj</p>
+    </div>
+    `;
+
+    const adminMailOptions = {
+        from: EMAIL_USER,
+        to: EMAIL_USER,
+        subject: 'New Contact Form Submission',
+        html: adminHTML,
+    };
+
+    const userMailOptions = {
+        from: EMAIL_USER,
+        to: email,
+        subject: 'Thank you for contacting me!',
+        html: userHTML,
+    };
+
+    transporter.sendMail(adminMailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending admin email:', error);
+            return res.status(500).json({ error: 'Failed to send email to admin' });
+        }
+
+        console.log('Admin email sent successfully:', info.response);
+
+        transporter.sendMail(userMailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending user email:', error);
+                return res.status(500).json({ error: 'Failed to send email to user' });
+            }
+            console.log('User email sent successfully:', info.response);
+            return res.status(200).json({ success: true, message: 'Email sent successfully' });
+        });
     });
-    res.json({ success: true });
-  } catch (err) {
-    console.error("Mail error:", err);
-    res.status(500).json({ error: "Failed to send message." });
-  }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
