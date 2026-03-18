@@ -1,4 +1,4 @@
-import { windowWrapper } from "@/features/system/hooks";
+import { windowWrapper } from "@/core/components";
 import TechStackGrid from "@/features/portfolio/components/TechStackGrid";
 
 const Skills = () => {

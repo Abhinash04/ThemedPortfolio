@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { terminalData } from "@/features/terminal/config";
+import { terminalData } from "@/features/terminal/constants";
 
 export const useTerminal = () => {
   const [contentRows, setContentRows] = useState([]);

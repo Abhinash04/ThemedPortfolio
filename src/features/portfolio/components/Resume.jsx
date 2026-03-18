@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { windowWrapper } from "@/features/system/hooks";
+import { windowWrapper } from "@/core/components";
 import { Download } from "lucide-react";
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';

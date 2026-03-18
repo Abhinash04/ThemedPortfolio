@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { WINDOW_CONFIG, INITIAL_Z_INDEX } from "@/features/system/constants";
+import { WINDOW_CONFIG, INITIAL_Z_INDEX } from "@/core/constants";
 
 let instanceCounter = 0;
 

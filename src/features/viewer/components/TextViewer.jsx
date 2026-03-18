@@ -1,4 +1,4 @@
-import { instanceWrapper } from "@/features/system/hooks";
+import { instanceWrapper } from "@/core/components";
 
 const TextViewer = ({ data }) => {
   if (!data) return null;

@@ -1,1 +1,1 @@
-export { default as Finder } from "@/features/finder/components/Finder";
+export { default as Finder } from "./Finder";
