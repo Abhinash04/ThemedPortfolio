@@ -1,0 +1,1 @@
+export * from "@/features/safari/constants/safari.constants";

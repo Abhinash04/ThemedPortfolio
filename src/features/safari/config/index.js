@@ -1,0 +1,1 @@
+export * from "@/features/safari/config/safari.config";

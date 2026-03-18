@@ -1,0 +1,1 @@
+export { default as Finder } from "@/features/finder/components/Finder";
