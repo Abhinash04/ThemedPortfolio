@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   STEP_CONFIG,
   FORM_KEYS,
@@ -14,6 +14,7 @@ export const useTerminalContactForm = () => {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
+  const isSendingRef = useRef(false);
 
   const getStepIndex = (s) => ALL_STEPS.indexOf(s);
   const currentStepIndex = getStepIndex(step);
@@ -46,6 +47,8 @@ export const useTerminalContactForm = () => {
   };
 
   const send = useCallback(async () => {
+    if (isSendingRef.current) return;
+    isSendingRef.current = true;
     setSending(true);
     setError("");
     try {
@@ -60,6 +63,7 @@ export const useTerminalContactForm = () => {
     } catch (err) {
       setError(err.message);
     } finally {
+      isSendingRef.current = false;
       setSending(false);
     }
   }, [formData]);
