@@ -19,9 +19,9 @@ export const STEP_CONFIG = [
     label: "Enter number",
     prompt: { pre: "Great! And what's", highlight: "your contact number?" },
     validator: (v) =>
-      /^\d{10}$/.test(v)
+      /^\+?\d{7,15}$/.test(v)
         ? true
-        : "Must be exactly 10 digits with no spaces or dashes",
+        : "Must be 7–15 digits with an optional leading '+'",
   },
   {
     key: "description",

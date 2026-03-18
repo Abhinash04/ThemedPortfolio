@@ -212,7 +212,7 @@ body {
     @apply max-w-2xl absolute top-60 left-5/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
 
     .contact-line {
-      animation: contactLineIn 0.15s ease both;
+      animation: contact-line-in 0.15s ease both;
     }
 
     h2 {
@@ -240,7 +240,7 @@ body {
     }
   }
 
-  @keyframes contactLineIn {
+  @keyframes contact-line-in {
     from {
       opacity: 0;
       transform: translateY(5px);

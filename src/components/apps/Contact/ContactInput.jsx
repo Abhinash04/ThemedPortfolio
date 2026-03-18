@@ -8,14 +8,16 @@ const ContactInput = ({
   clearError,
   currentConfig,
   onKeyDown,
-}) => (
+}) => {
+  const labelText = currentConfig?.label || 'Contact';
+  return (
   <>
     <div className="flex items-center gap-2 pt-0.5 contact-line">
       <span className="text-green-400" aria-hidden>
         →
       </span>
       <span className="text-gray-500">~</span>
-      <span className="text-gray-500">{currentConfig?.label}:</span>
+      <span className="text-gray-500">{labelText}:</span>
       <input
         ref={inputRef}
         value={input}
@@ -28,12 +30,13 @@ const ContactInput = ({
         autoComplete="off"
         autoCorrect="off"
         spellCheck={false}
-        aria-label={currentConfig?.label}
+        aria-label={labelText}
         aria-invalid={!!error}
       />
     </div>
     {error && <ErrorLine message={error} />}
   </>
-);
+  );
+};
 
 export default ContactInput;
