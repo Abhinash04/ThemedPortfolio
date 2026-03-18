@@ -209,7 +209,11 @@ body {
   }
 
   #contact {
-    @apply max-w-2xl absolute top-60 left-5/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply max-w-2xl absolute top-60 left-5/12 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+
+    .contact-line {
+      animation: contact-line-in 0.15s ease both;
+    }
 
     h2 {
       @apply font-bold text-sm text-center w-full;
@@ -233,6 +237,17 @@ body {
           @apply font-semibold text-sm text-white;
         }
       }
+    }
+  }
+
+  @keyframes contact-line-in {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
