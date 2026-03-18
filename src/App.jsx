@@ -1,14 +1,26 @@
-import { Navbar, Welcome, Dock } from "@/components"
-import Terminal from "@/components/apps/Terminal"
-import Skills from "@/components/apps/Skills"
-import Safari from "@/components/apps/Safari"
-import Resume from "@/components/apps/Resume"
-import Finder from "@/components/apps/Finder"
-import TextViewer from "@/components/apps/TextViewer"
-import ImageViewer from "@/components/apps/ImageViewer"
-import Contact from "@/components/apps/Contact"
+import {
+  Navbar,
+  Welcome,
+  Dock,
+  Terminal,
+  Safari,
+  Contact,
+  Skills,
+  Resume,
+  Finder,
+  TextViewer,
+  ImageViewer,
+  useWindowStore,
+} from "@/features";
+
+const VIEWER_COMPONENTS = {
+  txtfile: TextViewer,
+  imgfile: ImageViewer,
+};
 
 const App = () => {
+  const { instances } = useWindowStore();
+
   return (
     <main>
       <Navbar />
@@ -19,11 +31,15 @@ const App = () => {
       <Dock />
       <Resume />
       <Finder />
-      <TextViewer />
-      <ImageViewer />
+      {instances.map((inst) => {
+        const ViewerWindow = VIEWER_COMPONENTS[inst.type];
+        return ViewerWindow ? (
+          <ViewerWindow key={inst.id} instanceId={inst.id} />
+        ) : null;
+      })}
       <Contact />
     </main>
-  )
-}
+  );
+};
 
-export default App
+export default App;
