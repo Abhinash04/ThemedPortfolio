@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import nodemailer from "nodemailer";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 const PORT = process.env.PORT ?? 3001;
@@ -10,15 +11,32 @@ const PORT = process.env.PORT ?? 3001;
 app.use(cors({ origin: process.env.CLIENT_ORIGIN ?? "http://localhost:3000" }));
 app.use(bodyParser.json());
 
+const { MAIL_USER, MAIL_PASS } = process.env;
+if (!MAIL_USER || !MAIL_PASS) {
+  console.error(
+    "[server] Missing required environment variables: MAIL_USER and/or MAIL_PASS.\n" +
+    "Create a .env file in the server/ directory with these values before starting."
+  );
+  process.exit(1);
+}
+
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many requests. Please wait 15 minutes before trying again." },
+});
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
+    user: MAIL_USER,
+    pass: MAIL_PASS,
   },
 });
 
-app.post("/api/contact", async (req, res) => {
+app.post("/api/contact", contactLimiter, async (req, res) => {
   const { name, email, number, description } = req.body;
 
   if (!name || !email || !description) {
