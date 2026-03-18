@@ -1,1 +1,1 @@
-export * from "./contact.constants";
+export * from "@/features/contact/constants/contact.constants";

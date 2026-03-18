@@ -1,4 +1,4 @@
-import { useWindowStore } from "../store";
+import { useWindowStore } from "@/features/system/store";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";

@@ -1,1 +1,1 @@
-export * from "./url";
+export * from "@/features/safari/utils/url";

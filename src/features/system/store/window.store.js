@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { WINDOW_CONFIG, INITIAL_Z_INDEX } from "../constants";
+import { WINDOW_CONFIG, INITIAL_Z_INDEX } from "@/features/system/constants";
 
 let instanceCounter = 0;
 
@@ -18,6 +18,8 @@ export const useWindowStore = create(
 
         if (win.isMinimized) {
           win.isMinimized = false;
+          win.isOpen = true;
+          win.data = data ?? win.data;
         } else {
           win.isOpen = true;
           win.data = data ?? win.data;
@@ -58,7 +60,10 @@ export const useWindowStore = create(
     // ── Multi-instance window actions ─────────────────────────────────────
     openInstance: (type, data = null) =>
       set((state) => {
-        const stackOffset = state.instances.filter((i) => i.type === type).length;
+        const sameType = state.instances.filter((i) => i.type === type);
+        const stackOffset = sameType.length === 0
+          ? 0
+          : Math.max(...sameType.map((i) => i.stackOffset)) + 1;
         state.instances.push({
           id: `${type}-${++instanceCounter}`,
           type,

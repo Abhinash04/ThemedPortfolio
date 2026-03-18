@@ -1,4 +1,4 @@
-import { Prompt } from "./ContactTerminalLines";
+import { Prompt } from "@/features/contact/components/ContactTerminalLines";
 
 const ContactHeader = () => (
   <>

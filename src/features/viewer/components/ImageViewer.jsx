@@ -5,12 +5,14 @@ import { ZoomIn, ZoomOut, RotateCw } from "lucide-react";
 const ZOOM_STEPS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
 const ImageViewer = ({ data }) => {
-  const imageUrl = data?.imageUrl;
-
-  const [prevImageUrl, setPrevImageUrl] = useState(imageUrl);
+  const [prevImageUrl, setPrevImageUrl] = useState(null);
   const [zoomIndex, setZoomIndex] = useState(2); // default: 1× (index 2)
   const [rotation, setRotation] = useState(0);
   const [imgError, setImgError] = useState(false);
+
+  if (!data) return null;
+
+  const imageUrl = data.imageUrl;
 
   // Reset view state whenever a different image is opened (during render, before paint)
   if (imageUrl !== prevImageUrl) {
@@ -19,8 +21,6 @@ const ImageViewer = ({ data }) => {
     setRotation(0);
     setImgError(false);
   }
-
-  if (!data) return null;
 
   const { name } = data;
   const zoom = ZOOM_STEPS[zoomIndex];

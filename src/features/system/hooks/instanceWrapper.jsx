@@ -1,11 +1,12 @@
-import { useWindowStore } from "../store";
-import { useRef } from "react";
+import { useWindowStore } from "@/features/system/store";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Draggable } from "gsap/all";
 import { WindowsController } from "@/features/system/components";
 
 gsap.registerPlugin(useGSAP, Draggable);
+
 
 const WINDOW_DEFAULT_POSITIONS = {
   txtfile: { top: "18%", left: "30%" },
@@ -52,15 +53,27 @@ const instanceWrapper = (Component, windowType, title, options = {}) => {
 
     const instanceState = instances.find((i) => i.id === instanceId);
     const ref = useRef(null);
+    const mountedRef = useRef(true);
+    const closeTweenRef = useRef(null);
+
+    useEffect(() => {
+      mountedRef.current = true;
+      return () => {
+        mountedRef.current = false;
+        if (closeTweenRef.current) closeTweenRef.current.kill();
+      };
+    }, []);
 
     const handleClose = (e) => {
       e.stopPropagation();
-      gsap.to(ref.current, {
+      closeTweenRef.current = gsap.to(ref.current, {
         scale: 0.8,
         opacity: 0,
         duration: 0.2,
         ease: "power2.inOut",
-        onComplete: () => closeInstance(instanceId),
+        onComplete: () => {
+          if (mountedRef.current) closeInstance(instanceId);
+        },
       });
     };
 
@@ -108,9 +121,10 @@ const instanceWrapper = (Component, windowType, title, options = {}) => {
           onStart: () => {
             if (prevTransform) node.style.transform = prevTransform;
           },
+          onComplete: () => {
+            manageGeometryDataset.clearPrevKeys(node);
+          },
         });
-
-        manageGeometryDataset.clearPrevKeys(node);
 
         const existingDraggable = Draggable.get(node);
         if (existingDraggable) existingDraggable.kill();
@@ -173,7 +187,7 @@ const instanceWrapper = (Component, windowType, title, options = {}) => {
         } ${isMinimized ? "pointer-events-none" : ""}`}
         onMouseDown={() => focusInstance(instanceId)}
       >
-        <div className="h-8 bg-gray-800 flex items-center px-4 window-handle active:cursor-grabbing cursor-grab select-none">
+        <div className="h-8 bg-gray-800 flex-center px-4 window-handle active:cursor-grabbing cursor-grab select-none">
           <WindowsController
             handleClose={handleClose}
             handleMinimize={handleMinimize}

@@ -1,2 +1,2 @@
-export * from "./components";
-export * from "./constants";
+export * from "@/features/finder/components";
+export * from "@/features/finder/constants";

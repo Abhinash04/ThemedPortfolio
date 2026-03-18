@@ -1,6 +1,6 @@
 import { Fragment } from "react";
-import { STEP_CONFIG } from "../config";
-import { Prompt, CheckLine } from "./ContactTerminalLines";
+import { STEP_CONFIG } from "@/features/contact/config";
+import { Prompt, CheckLine } from "@/features/contact/components/ContactTerminalLines";
 
 const ContactHistory = ({ formData, currentStepIndex, getStepIndex }) => (
   <>

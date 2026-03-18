@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { windowWrapper } from "@/features/system/hooks";
-import { useTerminalContactForm } from "./hooks";
+import { useTerminalContactForm } from "@/features/contact/hooks";
 import {
   ContactHeader,
   ContactHistory,
@@ -8,7 +8,7 @@ import {
   ContactSummary,
   ContactActions,
   ContactFooter,
-} from "./components";
+} from "@/features/contact/components";
 
 export const ContactCore = () => {
   const {

@@ -1,1 +1,1 @@
-export * from "./safari.constants";
+export * from "@/features/safari/constants/safari.constants";

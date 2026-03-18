@@ -1,1 +1,1 @@
-export { useTerminalContactForm } from "./useTerminalContactForm";
+export { useTerminalContactForm } from "@/features/contact/hooks/useTerminalContactForm";

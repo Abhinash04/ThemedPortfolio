@@ -1,1 +1,1 @@
-export { useSafari } from "./useSafari";
+export { useSafari } from "@/features/safari/hooks/useSafari";

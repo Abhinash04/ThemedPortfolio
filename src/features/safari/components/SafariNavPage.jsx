@@ -1,7 +1,7 @@
-import { blogPosts, projects } from "../constants";
-import { websites, wallpapers } from "../config";
+import { blogPosts, projects } from "@/features/safari/constants";
+import { websites, wallpapers } from "@/features/safari/config";
 import { ShieldHalf } from "lucide-react";
-import SafariNavSection from "./SafariNavSection";
+import SafariNavSection from "@/features/safari/components/SafariNavSection";
 
 const SafariNavPage = ({ setGoURL }) => {
   return (

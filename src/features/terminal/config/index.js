@@ -1,1 +1,1 @@
-export * from "./terminal.config";
+export * from "@/features/terminal/config/terminal.config";

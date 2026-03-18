@@ -1,6 +1,6 @@
 import React from "react";
-import TechStackGrid from "../../portfolio/components/TechStackGrid";
-import { renderTerminalContent } from "./TerminalContentRenderer";
+import TechStackGrid from "@/features/portfolio/components/TechStackGrid";
+import { renderTerminalContent } from "@/features/terminal/components/TerminalContentRenderer";
 
 const renderResultElement = (element, rowKey) => {
   if (!element) return null;

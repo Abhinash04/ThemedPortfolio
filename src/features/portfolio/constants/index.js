@@ -1,1 +1,1 @@
-export * from "./portfolio.constants";
+export * from "@/features/portfolio/constants/portfolio.constants";

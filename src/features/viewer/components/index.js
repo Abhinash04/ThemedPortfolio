@@ -1,2 +1,2 @@
-export { default as TextViewer } from "./TextViewer";
-export { default as ImageViewer } from "./ImageViewer";
+export { default as TextViewer } from "@/features/viewer/components/TextViewer";
+export { default as ImageViewer } from "@/features/viewer/components/ImageViewer";

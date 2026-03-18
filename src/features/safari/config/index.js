@@ -1,1 +1,1 @@
-export * from "./safari.config";
+export * from "@/features/safari/config/safari.config";

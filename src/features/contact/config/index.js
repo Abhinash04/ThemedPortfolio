@@ -1,1 +1,1 @@
-export * from "./contact.config";
+export * from "@/features/contact/config/contact.config";

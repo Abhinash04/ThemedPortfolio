@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useInterval } from "../hooks";
+import { useInterval } from "@/features/terminal/hooks";
 
 const CHARACTERS =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789落霞与孤鹜齐飞秋水共长天一色";
@@ -42,6 +42,7 @@ const TerminalError = ({ setRMRF }) => {
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -72,7 +73,7 @@ const TerminalError = ({ setRMRF }) => {
       onClick={() => setRMRF(false)}
     >
       <canvas ref={canvasRef}></canvas>
-      <div className="font-avenir absolute h-28 text-center space-y-4 m-auto inset-0">
+      <div className="font-avenir abs-center h-28 space-y-4 text-center">
         <div className="text-4xl">{emoji}</div>
         <div className="text-3xl">HOW DARE YOU!</div>
         <div>Click to go back</div>

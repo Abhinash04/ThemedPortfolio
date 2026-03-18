@@ -1,1 +1,1 @@
-export * from "./finder.constants";
+export * from "@/features/finder/constants/finder.constants";

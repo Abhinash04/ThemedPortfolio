@@ -1,7 +1,7 @@
 import { RefreshCw } from "lucide-react";
 import { windowWrapper } from "@/features/system/hooks";
-import { useSafari } from "./hooks";
-import { SafariToolbar, SafariNavPage } from "./components";
+import { useSafari } from "@/features/safari/hooks";
+import { SafariToolbar, SafariNavPage } from "@/features/safari/components";
 
 const Safari = () => {
   const safariState = useSafari();

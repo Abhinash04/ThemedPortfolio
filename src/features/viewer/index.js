@@ -1,1 +1,1 @@
-export * from "./components";
+export * from "@/features/viewer/components";

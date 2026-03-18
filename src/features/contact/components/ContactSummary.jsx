@@ -1,5 +1,5 @@
-import { STEP_CONFIG } from "../config";
-import { Prompt, SummaryEntry, CheckLine } from "./ContactTerminalLines";
+import { STEP_CONFIG } from "@/features/contact/config";
+import { Prompt, SummaryEntry, CheckLine } from "@/features/contact/components/ContactTerminalLines";
 
 const ContactSummary = ({ formData, isSent }) => (
   <>

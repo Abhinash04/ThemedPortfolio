@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { dockApps } from "../constants";
+import { dockApps } from "@/features/system/constants";
 import { Tooltip } from "react-tooltip";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";

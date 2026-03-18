@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { terminalData } from "../config";
+import { terminalData } from "@/features/terminal/config";
 
 export const useTerminal = () => {
   const [contentRows, setContentRows] = useState([]);
@@ -144,6 +144,8 @@ export const useTerminal = () => {
   // Initialize terminal
   useEffect(() => {
     generateInputRow(0);
+    // Intentionally omits generateInputRow from deps: this must run only on mount
+    // to seed the first prompt row; re-running on every render would duplicate rows.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -160,6 +162,9 @@ export const useTerminal = () => {
          }
        }
     }
+    // Intentionally omits contentRows from deps: including it would cause an infinite
+    // loop because generateInputRow updates contentRows, which would re-trigger this
+    // effect on every keystroke. uniqueId is the sole trigger for appending a new prompt.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uniqueId]);
 

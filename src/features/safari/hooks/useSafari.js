@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { checkURL } from "../utils";
+import { checkURL } from "@/features/safari/utils";
 
 export const useSafari = () => {
   const [history, setHistory] = useState([""]);

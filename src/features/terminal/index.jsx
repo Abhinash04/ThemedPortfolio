@@ -1,6 +1,6 @@
 import { windowWrapper } from "@/features/system/hooks";
-import { useTerminal } from "./hooks";
-import { TerminalError, TerminalInput, TerminalRow } from "./components";
+import { useTerminal } from "@/features/terminal/hooks";
+import { TerminalError, TerminalInput, TerminalRow } from "@/features/terminal/components";
 
 export const TerminalCore = () => {
   const {

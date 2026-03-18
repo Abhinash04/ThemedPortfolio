@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { windowWrapper } from "@/features/system/hooks";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
-import { locations } from "../constants";
+import { locations } from "@/features/finder/constants";
 import { useLocationStore } from "@/features/system/store";
 import { useWindowStore } from "@/features/system/store";
 import clsx from "clsx";

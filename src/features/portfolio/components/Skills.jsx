@@ -1,5 +1,5 @@
 import { windowWrapper } from "@/features/system/hooks";
-import TechStackGrid from "./TechStackGrid";
+import TechStackGrid from "@/features/portfolio/components/TechStackGrid";
 
 const Skills = () => {
   return (

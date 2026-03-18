@@ -1,2 +1,2 @@
-export * from "./components";
-export * from "./constants";
+export * from "@/features/portfolio/components";
+export * from "@/features/portfolio/constants";

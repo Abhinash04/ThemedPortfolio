@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
-import { navIcons, navLinks } from "../constants";
+import { navIcons, navLinks } from "@/features/system/constants";
 import { useWindowStore } from "@/features/system/store";
 
 const Navbar = () => {

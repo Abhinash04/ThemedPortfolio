@@ -1,5 +1,5 @@
 import { Github, Globe, Instagram, Linkedin } from "lucide-react";
-import { socials } from "../constants/contact.constants";
+import { socials } from "@/features/contact/constants";
 
 const SOCIAL_ICONS = {
   Github: Github,

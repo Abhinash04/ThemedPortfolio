@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { techStack } from "../constants";
+import { techStack } from "@/features/portfolio/constants";
 import { Check, Flag } from "lucide-react";
 
 const TechStackGrid = () => {

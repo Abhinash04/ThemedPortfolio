@@ -4,7 +4,7 @@ import {
   FORM_KEYS,
   ALL_STEPS,
   EMPTY_FORM,
-} from "../config";
+} from "@/features/contact/config";
 
 export const useTerminalContactForm = () => {
   const [step, setStep] = useState(FORM_KEYS[0]);

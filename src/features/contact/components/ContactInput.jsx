@@ -1,4 +1,4 @@
-import { ErrorLine } from "./ContactTerminalLines";
+import { ErrorLine } from "@/features/contact/components/ContactTerminalLines";
 
 const ContactInput = ({
   inputRef,

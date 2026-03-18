@@ -1,2 +1,2 @@
-export { useTerminal } from "./useTerminal";
-export { default as useInterval } from "./useInterval";
+export { useTerminal } from "@/features/terminal/hooks/useTerminal";
+export { default as useInterval } from "@/features/terminal/hooks/useInterval";
