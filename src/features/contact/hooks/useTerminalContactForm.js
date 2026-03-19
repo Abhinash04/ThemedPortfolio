@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   STEP_CONFIG,
   FORM_KEYS,
@@ -6,11 +6,15 @@ import {
   EMPTY_FORM,
 } from "@/features/contact/config";
 
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5000";
+
 export const useTerminalContactForm = () => {
   const [step, setStep] = useState(FORM_KEYS[0]);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
+  const [sending, setSending] = useState(false);
+  const isSendingRef = useRef(false);
 
   const getStepIndex = (s) => ALL_STEPS.indexOf(s);
   const currentStepIndex = getStepIndex(step);
@@ -42,7 +46,27 @@ export const useTerminalContactForm = () => {
     setError("");
   };
 
-  const send = () => setStep("sent");
+  const send = useCallback(async () => {
+    if (isSendingRef.current) return;
+    isSendingRef.current = true;
+    setSending(true);
+    setError("");
+    try {
+      const res = await fetch(`${API_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Something went wrong.");
+      setStep("sent");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      isSendingRef.current = false;
+      setSending(false);
+    }
+  }, [formData]);
 
   const clearError = () => setError("");
 
@@ -65,5 +89,6 @@ export const useTerminalContactForm = () => {
     advance,
     restart,
     send,
+    sending,
   };
 };
