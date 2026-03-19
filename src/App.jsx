@@ -12,6 +12,7 @@ import {
   ImageViewer,
   useWindowStore,
 } from "@/features";
+import { Home } from "@/core";
 
 const VIEWER_COMPONENTS = {
   txtfile: TextViewer,
@@ -38,6 +39,7 @@ const App = () => {
         ) : null;
       })}
       <Contact />
+      <Home />
     </main>
   );
 };
