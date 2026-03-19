@@ -14,8 +14,7 @@ lerna-debug.log*
 dist
 dist-ssr
 
-# Lock files
-package-lock.json
+# Lock files (keep only non-npm lockfiles ignored; package-lock.json is tracked)
 yarn.lock
 pnpm-lock.yaml
 
